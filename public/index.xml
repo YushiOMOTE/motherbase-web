@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Yushi Omote</title>
-    <link>http://149.28.23.137/</link>
+    <link>http://yushiomote.org/</link>
     <description>Recent content on Yushi Omote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 23 Nov 2019 06:15:47 +0000</lastBuildDate>
     
-	<atom:link href="http://149.28.23.137/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://yushiomote.org/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Old Posts</title>
-      <link>http://149.28.23.137/posts/old-blog/</link>
+      <link>http://yushiomote.org/posts/old-blog/</link>
       <pubDate>Sat, 23 Nov 2019 06:15:47 +0000</pubDate>
       
-      <guid>http://149.28.23.137/posts/old-blog/</guid>
+      <guid>http://yushiomote.org/posts/old-blog/</guid>
       <description>My old posts can be found here</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>http://149.28.23.137/about/</link>
+      <link>http://yushiomote.org/about/</link>
       <pubDate>Sat, 23 Nov 2019 04:09:21 +0000</pubDate>
       
-      <guid>http://149.28.23.137/about/</guid>
+      <guid>http://yushiomote.org/about/</guid>
       <description>Yushi Omote Rust, C/C++, Python, x86/64, Virtualization, Giroppon, Fintech
 Professional history  Oct 2015 – Current  Engineer, SBI BITS (Better IT Solutions).   Apr 2014 – Sep 2015  Research Fellow, University of Tsukuba / Japan Society for the Promotion of Science.   May 2012 – Mar 2014  Contract Researcher, National Institute for Agro-Environmental Sciences.    Publications  OS-Independent Live Migration Scheme for Bare-metal Clouds.</description>
     </item>
