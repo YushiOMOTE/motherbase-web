@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Yushi Omote</title>
+    <link>http://198.13.45.147/posts/</link>
+    <description>Recent content in Posts on Yushi Omote</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Nov 2019 06:15:47 +0000</lastBuildDate>
+    
+	<atom:link href="http://198.13.45.147/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Old Posts</title>
+      <link>http://198.13.45.147/posts/old-blog/</link>
+      <pubDate>Sat, 23 Nov 2019 06:15:47 +0000</pubDate>
+      
+      <guid>http://198.13.45.147/posts/old-blog/</guid>
+      <description>My old posts can be found here</description>
+    </item>
+    
+  </channel>
+</rss>
