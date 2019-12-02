@@ -6,10 +6,22 @@
     <description>Recent content on Yushi Omote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Nov 2019 06:15:47 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2019 10:14:55 +0900</lastBuildDate>
     
 	<atom:link href="http://yushiomote.org/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>My website as Code</title>
+      <link>http://yushiomote.org/posts/new-website/</link>
+      <pubDate>Mon, 02 Dec 2019 10:14:55 +0900</pubDate>
+      
+      <guid>http://yushiomote.org/posts/new-website/</guid>
+      <description>My new website This is the article for the 2nd day of qiita advent calendar.
+Hi, this is my new personal website!
+My old website is still alive here (http://old.yushiomote.org), but I plan to remove it in the near future.
+It&#39;s been a while since I wrote my last article. I even haven&#39;t logged in my old personal server for a long time. I forgot almost all the settings in my old personal server.</description>
+    </item>
     
     <item>
       <title>Old Posts</title>

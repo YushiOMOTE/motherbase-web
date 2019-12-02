@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <link crossorigin="anonymous" media="all"
+        rel="stylesheet"
+        href="http://yushiomote.org/css/frameworks.css" />
+    <link crossorigin="anonymous" media="all"
+        rel="stylesheet" href="http://yushiomote.org/css/github.css" />
+    <meta name="viewport" content="width=device-width">
+
+    <title>My website as Code - Yushi Omote</title>
+
+    <link rel="icon" type="image/x-icon" class="js-site-favicon" href="http://yushiomote.org/images/favicon.ico">
+    <meta name="theme-color" content="#1e2327">
+    
+</head>
+
+<body class="env-production emoji-size-boost page-responsive page-profile">
+  <div class="position-relative js-header-wrapper ">
+    <span class="Progress progress-pjax-loader position-fixed width-full js-pjax-loader-bar">
+        <span class="progress-pjax-loader-bar top-0 left-0" style="width: 0%;"></span>
+    </span>
+    <header class="Header js-details-container Details flex-wrap flex-lg-nowrap p-responsive" role="banner">
+        <div class="Header-item d-none d-lg-flex">
+            <a class="Header-link" href="http://yushiomote.org/" aria-label="Homepage"
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+                    width="32" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </div>
+        <div
+            class="Header-item Header-item--full flex-column flex-lg-row width-full flex-order-2 flex-lg-order-none mr-0 mr-lg-3 mt-3 mt-lg-0 Details-content--hidden">
+            <div class="header-search flex-self-stretch flex-lg-self-auto mr-0 mr-lg-3 mb-3 mb-lg-0 scoped-search site-scoped-search js-site-search position-relative js-jump-to"
+                role="combobox" aria-owns="jump-to-results" aria-label="Search or jump to" aria-haspopup="listbox"
+                aria-expanded="false">
+                <div class="position-relative">
+                </div>
+            </div>
+        </div>
+        <div class="Header-item Header-item--full flex-justify-center d-lg-none position-relative" style="margin-right: auto;">
+            <a class="Header-link" href="http://yushiomote.org/" aria-label="Homepage"
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+                    width="32" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </div>
+        <div class="Header-item position-relative mr-0 d-none d-lg-flex">
+            <details class="details-overlay details-reset">
+                <summary class="Header-link" aria-label="View profile and more"
+                    data-ga-click="Header, show menu, icon:avatar">
+                    
+                    <img alt="" class="avatar" src="http://yushiomote.org/images/avatar.gif" height="20" width="20">
+                    
+                </summary>
+            </details>
+        </div>
+    </header>
+</div>
+
+<div id="start-of-content" class="show-on-focus"></div>
+<div id="js-flash-container">
+</div>
+
+  
+<div class="application-main " data-commit-hovercards-enabled="">
+    <div itemscope="" itemtype="http://schema.org/SoftwareSourceCode" class="">
+        <main id="js-repo-pjax-container" data-pjax-container="">
+            <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav pt-0 pt-lg-4 ">
+                <div class="repohead-details-container clearfix container-lg p-responsive d-none d-lg-block">
+                    <div class="mb-3 d-flex">
+                        <h1 class="public css-truncate float-none flex-auto width-fit pl-0">
+                            <a class="avatar mr-1" href="http://yushiomote.org/about/">
+                            
+                                <img
+                                    src="http://yushiomote.org/images/avatar.gif" width="26" height="26">
+                            
+                            </a>
+                            <span class="author"><a
+                                    href="http://yushiomote.org/">Yushi Omote</a></span>
+                            <span class="path-divider">/</span>
+                            <strong itemprop="name" class="css-truncate-target" style="max-width: 410px"><a
+                                    href="http://yushiomote.org/posts/new-website/">My website as Code</a></strong>
+
+                            <div class="d-block text-small text-gray">
+                                Created <time-ago datetime="2019-12-02" class="no-wrap"
+                                    title="Created at 2019/12/02">
+                                    2019-12-02</time-ago>
+                                <span class="file-info-divider"></span>
+                                Modifyd <time-ago datetime="2019-12-02" class="no-wrap"
+                                    title="Modifyd at 2019/12/02">
+                                    2019-12-02</time-ago>
+                            </div>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="container-lg clearfix new-discussion-timeline experiment-repo-nav  p-responsive">
+                <div class="repository-content ">
+                    <div class="Box mt-3 position-relative">
+                        <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
+                            <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                                1660 Words
+                                
+                            </div>
+                        </div>
+
+                        <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
+                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><h1 id="my-new-website">My new website</h1>
+<p>This is the article for <a href="https://qiita.com/advent-calendar/2019/giroppon-fintech">the 2nd day of qiita advent calendar</a>.</p>
+<p>Hi, this is my new personal website!</p>
+<p>My old website is still alive here (<a href="http://old.yushiomote.org">http://old.yushiomote.org</a>), but I plan to remove it in the near future.</p>
+<p>It's been a while since I wrote my last article. I even haven't logged in my old personal server for a long time.
+I forgot almost all the settings in my old personal server. All settings were done manually but I'd lost all the memo.
+Plus, it's based on old technologies (CentOS 6 + Wordpress).</p>
+<p>So, I made up my mind to replace my website with something new and managable. That's why I have my new website here.</p>
+<h2 id="goal">Goal</h2>
+<p>I'm kind of person who easily forgets the things I've done for my servers.
+My goal is therefore to manage everything by using git (github); everything including not only blog posts but also server/network settings.</p>
+<h2 id="technologies">Technologies</h2>
+<p>To achieve the goal, I rely on these four technologies/services to make up my website.</p>
+<ul>
+<li>Application: <a href="https://gohugo.io/">Hugo</a> for blog generation.</li>
+<li>OS: <a href="https://rancher.com/rancher-os/">Rancher OS</a> for simplified docker deployment.</li>
+<li>Infra: <a href="https://www.vultr.com/">Vultr VPS</a>, which is highly customizable and high performance cloud provider.</li>
+<li>Deployment tool: <a href="https://www.terraform.io/">Terraform</a> to manage all the infra/OS/app settings as code.</li>
+</ul>
+<h2 id="quick-introduction">Quick Introduction</h2>
+<p>I'll briefly introduce each technology.</p>
+<h3 id="hugo">Hugo</h3>
+<p>Hugo is a static website generator written in <code>Go</code>. We write blog posts in markdown. Then, hugo generates all the necessary html files from them, which is a complete website that we can just publish via something like <code>nginx</code>. So, we can just manage markdown files by using git.</p>
+<p>There's many other static website generators, but I can find a lot of nice themes for hugo. So, I chose hugo right now.</p>
+<h3 id="rancher-os">Rancher OS</h3>
+<p>Rancher OS is one of the extreme linux distributions. In Rancher OS, everything is docker. Even system services are docker containers. It contains only minimum things to run docker container. The image size of Rancher OS therefore is small, which is nice when allocating a small instance in cheaper price in a cloud provider.</p>
+<p>The interesting part is that it contains <code>user docker</code> and <code>system docker</code>. <code>system docker</code> is a privileged docker (root) to run system service containers like <code>syslog</code> or <code>network</code>. <code>user docker</code> is just to run your application container.</p>
+<p><img src="https://rancher.com/docs/img/os/rancheroshowitworks_hu0036294caa53da66a430f0f423e09912_453505_2000x0_resize_box_2.png" alt=""></p>
+<p>(from: <a href="https://rancher.com/docs/os/v1.x/en/overview/">https://rancher.com/docs/os/v1.x/en/overview/</a>)</p>
+<p>In the shell on Rancher OS, <code>docker</code> command is available from the beginning without any setup. <code>docker ps</code> command shows the applications users run (In my example, I'm running <code>nginx</code> and <code>sync</code> container)</p>
+<pre><code>[rancher@rancher ~]$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
+5ef6ce21a773        231d40e811cd        &quot;nginx -g 'daemon of…&quot;   27 hours ago        Up 4 hours          0.0.0.0:80-&gt;80/tcp   nginx
+0a483d5bd785        7b23add13d62        &quot;/sync.sh&quot;               28 hours ago        Up 28 hours                              sync
+</code></pre><p>On the other hand, there's another command <code>system-docker</code>. As the name indicates, the command is to control <code>system docker</code>. <code>system-docker ps</code> command shows the system services. The <code>docker</code> container in the list there is the one which runs the user containers (my <code>nginx</code> and <code>sync</code> container).</p>
+<pre><code>[rancher@rancher ~]$ sudo system-docker ps
+CONTAINER ID        IMAGE                              COMMAND                  CREATED             STATUS              PORTS               NAMES
+6eacdbeb9490        rancher/os-docker:18.09.8          &quot;ros user-docker&quot;        28 hours ago        Up 28 hours                             docker
+41e3af07f689        rancher/os-console:v1.5.4          &quot;/usr/bin/ros entr...&quot;   28 hours ago        Up 28 hours                             console
+8aacbd87b7d3        rancher/os-base:v1.5.4             &quot;/usr/bin/ros entr...&quot;   28 hours ago        Up 28 hours                             ntp
+a9b20b9f159f        rancher/os-base:v1.5.4             &quot;/usr/bin/ros entr...&quot;   28 hours ago        Up 28 hours                             network
+55962e62d913        rancher/os-base:v1.5.4             &quot;/usr/bin/ros entr...&quot;   28 hours ago        Up 28 hours                             udev
+ccb9689f0805        rancher/container-crontab:v0.4.0   &quot;container-crontab&quot;      28 hours ago        Up 28 hours                             system-cron
+44fe549945da        rancher/os-syslog:v1.5.4           &quot;/usr/bin/entrypoi...&quot;   28 hours ago        Up 28 hours                             syslog
+2ffc2b2e4321        rancher/os-acpid:v1.5.4            &quot;/usr/bin/ros entr...&quot;   28 hours ago        Up 28 hours                             acpid
+</code></pre><h3 id="vultr-vps">Vultr VPS</h3>
+<p>One benefit of Vultr VPS is that it is highly customizable. It supports various OSes including Rancher OS; you can even upload ISOs or use startup scripts to install or boot many OSes. This is nice to try freaky OSes in the cloud provider.</p>
+<p>Vultr VPS also is compatible to the nice orchestration tool, <code>Terraform</code>, which I'll mention in the next section.</p>
+<p>Plus, all the instances come with SSD attached, while they are in reasonable prices.</p>
+<h3 id="terraform">Terraform</h3>
+<p>This is the key technology that helps making up my website. <code>Terraform</code> is a tool for the concept, <code>Infrastructure as Code</code>. It is designed to describe entire infrastructure include servers/network settings as code. It can also describe docker settings and kubernetes cluster settings as code.</p>
+<p>For example, this is the code to create a server and a firewall in Vultr, and then associate the two.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#75715e"># Settings to connect to vultr.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">provider</span> <span style="color:#e6db74">&#34;vultr&#34;</span> {
+  api_key <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">api_key</span>
+}<span style="color:#75715e">
+</span><span style="color:#75715e">
+</span><span style="color:#75715e"># Create a firewall
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;vultr_firewall_group&#34; &#34;firewall&#34;</span> {
+  description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Example firewall&#34;</span>
+}<span style="color:#75715e">
+</span><span style="color:#75715e">
+</span><span style="color:#75715e"># Add one rule to the firewall
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;vultr_firewall_rule&#34; &#34;fw_ports&#34;</span> {
+  firewall_group_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">vultr_firewall_group</span>.<span style="color:#66d9ef">firewall</span>.<span style="color:#66d9ef">id</span>
+
+  protocol  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+  network   <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0.0.0.0/0&#34;</span>
+  from_port <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>
+}<span style="color:#75715e">
+</span><span style="color:#75715e">
+</span><span style="color:#75715e"># Create a server which uses the firewall
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;vultr_server&#34; &#34;server&#34;</span> {
+  plan_id           <span style="color:#f92672">=</span> <span style="color:#ae81ff">201</span>
+  os_id             <span style="color:#f92672">=</span> <span style="color:#ae81ff">159</span>
+  region_id         <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+  hostname          <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;example&#34;</span>
+  firewall_group_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">vultr_firewall_group</span>.<span style="color:#66d9ef">firewall</span>.<span style="color:#66d9ef">id</span>
+}
+</code></pre></div><p>The language used by <code>Terraform</code> is called <code>HCL</code> (HashiCorp Configuration Language). So, you describe infrastructure in <code>HCL</code> code. Applying the code by <code>terraform</code> command, the actual infrastructure is created. If we modify the code, the infrastructure is modified based on the code change. Reverting works. By maintaining <code>HCL</code> code by using git, we can maintain the state of our infrastructure in the same way as we maintain application source code.</p>
+<h2 id="lets-start">Let's start</h2>
+<p>I wrote HCL code to define my servers. This is the structure of code repository.</p>
+<pre><code>.
+├── components
+│   ├── docker
+│   │   ├── deps.tf
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   ├── templates
+│   │   │   └── nginx
+│   │   │       └── conf.d
+│   │   │           └── site.conf
+│   │   └── variables.tf
+│   └── server
+│       ├── dns.tf
+│       ├── firewall.tf
+│       ├── main.tf
+│       ├── network.tf
+│       ├── outputs.tf
+│       ├── templates
+│       │   ├── cloud-config.yml
+│       │   └── startup.ipxe
+│       └── variables.tf
+├── environments
+│   ├── prod
+│   │   ├── docker.tfvars
+│   │   └── server.tfvars
+│   └── test
+│       ├── docker.tfvars
+│       └── server.tfvars
+├── modules
+│   └── state
+│       └── main.tf
+├── README.md
+└── scripts
+    ├── raw.sh
+    └── run.sh
+</code></pre><p>There's two components:</p>
+<ol>
+<li><code>components/server</code>: This is the code to create Vultr servers/networks and deploy Rancher OS on them.</li>
+<li><code>components/docker</code>: This is the code to run docker containers on Rancehr OS.</li>
+</ol>
+<p>I prepare staging environment: <code>test</code> and <code>prod</code>.</p>
+<ol>
+<li><code>environments/test</code>: The environment where I keep doing some experiments.</li>
+<li><code>environments/prod</code>: The environment on which you are reading this post now.</li>
+</ol>
+<h3 id="serveros-deployment">Server/OS deployment</h3>
+<p><code>components/server</code> contains the code to setup vultr servers/network.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;vultr_server&#34; &#34;server&#34;</span> {
+  plan_id           <span style="color:#f92672">=</span> <span style="color:#ae81ff">201</span><span style="color:#75715e">           # 1G RAM, 25G SSD, 5$/month
+</span><span style="color:#75715e"></span>  os_id             <span style="color:#f92672">=</span> <span style="color:#ae81ff">159</span><span style="color:#75715e">           # Custom (No OS)
+</span><span style="color:#75715e"></span>  region_id         <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">region_id</span><span style="color:#75715e"> # Tokyo
+</span><span style="color:#75715e"></span>  script_id         <span style="color:#f92672">=</span> <span style="color:#66d9ef">vultr_startup_script</span>.<span style="color:#66d9ef">startup</span>.<span style="color:#66d9ef">id</span><span style="color:#75715e">    # Id of my boot script (iPXE script)
+</span><span style="color:#75715e"></span>  label             <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;${var.system}-${terraform.workspace}&#34;</span>
+  tag               <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;${var.system}-${terraform.workspace}&#34;</span>
+  hostname          <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;${var.system}-${terraform.workspace}&#34;</span>
+  network_ids       <span style="color:#f92672">=</span> [<span style="color:#66d9ef">vultr_network</span>.<span style="color:#66d9ef">network</span>.<span style="color:#66d9ef">id</span>]
+  firewall_group_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">vultr_firewall_group</span>.<span style="color:#66d9ef">firewall</span>.<span style="color:#66d9ef">id</span>
+}
+</code></pre></div><p>This code block lanches an VPS server. The server starts without any OS installed. Instead, it loads a <code>iPXE</code> script to perform network installation of RancherOS.</p>
+<p><a href="https://ipxe.org/"><code>iPXE</code></a> is kind of an enhanced version of <code>PXE</code>. While <code>PXE</code> uses only <code>TFTP</code>, <code>iPXE</code> supports the various network-boot method via various protocols (HTTP/HTTPS, iSCSI, FCoE, AoE). It also supports scripting to decide how to retrieve OS images and related configuration over network.</p>
+<p>This is the <code>iPXE</code> script the server uses.</p>
+<pre><code class="language-ipxe" data-lang="ipxe">#!ipxe
+
+set base-url https://releases.rancher.com/os/latest
+
+# Download the RancherOS kernel
+kernel $${base-url}/vmlinuz rancher.state.dev=LABEL=RANCHER_STATE rancher.state.autoformat=[/dev/vda] rancher.cloud_init.datasources=[url:https://raw.githubusercontent.com/YushiOMOTE/motherbase-tf/master/components/server/templates/cloud-config.yml]
+
+initrd $${base-url}/initrd
+
+boot
+</code></pre><p>The parameter, <code>rancher.cloud_init.datasources=</code>, is to use <a href="https://cloudinit.readthedocs.io/en/latest/"><code>cloud-init</code></a>. <code>cloud-init</code> is a way to pass basic configuration (such as SSH public keys) to OS on startup. <code>cloud-init</code> is supported by most major distributions. It's supported by Rancer OS as well.</p>
+<p>Here simply my Rancher OS retrieves SSH public key settings by <code>cloud-init</code>, so that I can login immediately after it's deployed. The ssh login is also necessary to setup docker containers in the next step.</p>
+<pre><code>#cloud-config
+ssh_authorized_keys:
+- ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuhCwO...
+</code></pre><h4 id="deployment-operation">Deployment operation</h4>
+<p>To actually trigger the deployment process I explained above, we need only these commands:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cd components/server
+$ terraform plan            <span style="color:#75715e"># This command will show you the changes to be apllied to your cloud resources.</span>
+$ terraform apply           <span style="color:#75715e"># This command actually applies the changes.</span>
+</code></pre></div><p>Then, a Vultr server with relevant network settings are automatically setup. Rancher OS starts running.</p>
+<h3 id="containers-deployment">Containers deployment</h3>
+<p><code>components/docker</code> contains the code to deploy docker containers on Rancher OS.</p>
+<p>I run two containers:</p>
+<ol>
+<li><code>nginx</code>: Just a nginx to show the hugo-generated webpages to users.</li>
+<li><code>sync</code>: The container which periodically downloads hugo-generated website from github.</li>
+</ol>
+<p>The two containers share a single volume. In the same directory in the volume, <code>sync</code> writes html files, and <code>nginx</code> reads them and shows them to users.</p>
+<p><code>sync</code> container image is self-made. It simply fetches the latest files from the github repository.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">src<span style="color:#f92672">=</span>https://github.com/YushiOMOTE/motherbase-web.git
+
+<span style="color:#66d9ef">while</span> true; <span style="color:#66d9ef">do</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> ! -d $dst/.git <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+        git init $dst
+        pushd $dst
+        git remote add origin $src
+        popd
+    <span style="color:#66d9ef">fi</span>
+
+    pushd $dst
+    git fetch --prune --recurse-submodules
+    git reset --hard origin/master
+    git submodule update --init --recursive
+    popd
+
+    sleep $wait
+<span style="color:#66d9ef">done</span>
+</code></pre></div><p>There is <a href="https://github.com/kubernetes/git-sync"><code>git-sync</code></a> from kubernetes project. I could use <code>git-sync</code> but I plan to grow <code>sync</code> to support more functions (I plan to grow it up to an API server). So I made a container by myself.</p>
+<h4 id="deployment-operation1">Deployment operation</h4>
+<p>The operations to deploy docker part is almost the same as server deployment.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cd components/docker
+$ terraform plan            <span style="color:#75715e"># This command will show you the changes to be apllied to your cloud resources.</span>
+$ terraform apply           <span style="color:#75715e"># This command actually applies the changes.</span>
+</code></pre></div><p>Then, the two docker containers start running. We write markdown articles, and push to github, then they'll be published.</p>
+<p><img src="../../assets/mb.png" alt=""></p>
+</article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="utterances"></div>
+<script src="https://utteranc.es/client.js"
+        repo="yushiomote.org"
+        issue-term="title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+  <div class="footer container-lg width-full p-responsive" role="contentinfo">
+    <div
+        class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+        <ul
+            class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+            <li class="mr-3 mr-lg-0">© 2019. Theme by <a href="https://github.com/MeiK2333/github-style"><span>github-style</span></a></li>
+        </ul>
+
+        <a aria-label="Homepage" title="Yushi Omote" class="footer-octicon d-none d-lg-block mx-lg-4"
+            href="http://yushiomote.org/">
+            <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                </path>
+            </svg>
+        </a>
+        <ul
+            class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+        </ul>
+    </div>
+    <div class="d-flex flex-justify-center pb-6">
+        <span class="f6 text-gray-light"></span>
+    </div>
+</div>
+
+<script crossorigin="anonymous"
+    type="application/javascript" src="http://yushiomote.org/js/frameworks.js"></script>
+
+<script crossorigin="anonymous" async="async"
+    type="application/javascript" src="http://yushiomote.org/js/github-bootstrap.js"></script>
+<script>
+    let classs = ['pinned-item-desc', 'text-gray', 'text-small', 'd-block', 'mt-2', 'mb-3'];
+    const pinned_posts = document.getElementsByName('pinned-post');
+    for (let i = 0; i < pinned_posts.length; i++) {
+        for (let j = 0; j < classs.length; j++) {
+            const ps = pinned_posts[i].getElementsByTagName('p');
+            for (let k = 0; k < ps.length; k++) {
+                ps[k].classList.add(classs[j]);
+            }
+        }
+    }
+    classs = [ 'd-inline-block', 'text-gray', 'mb-2', 'pr-4'];
+    const posts_posts = document.getElementsByName('posts-post');
+    for (let i = 0; i < posts_posts.length; i++) {
+        for (let j = 0; j < classs.length; j++) {
+            const ps = posts_posts[i].getElementsByTagName('p');
+            for (let k = 0; k < ps.length; k++) {
+                ps[k].classList.add(classs[j]);
+            }
+        }
+    }
+</script>
+</body>
+
+</html>
