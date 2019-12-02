@@ -281,3 +281,6 @@ $ terraform apply           # This command actually applies the changes.
 Then, the two docker containers start running. We write markdown articles, and push to github, then they'll be published.
 
 ![](../../assets/mb.png)
+
+* [Article repository](https://github.com/yushiomote/motherbase-web)
+* [Terraform repository](https://github.com/yushiomote/motherbase-tf)
