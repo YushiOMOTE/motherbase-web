@@ -6,10 +6,22 @@
     <description>Recent content on Yushi Omote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 Dec 2019 10:14:55 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 04 Dec 2019 11:52:25 +0900</lastBuildDate>
     
 	<atom:link href="http://yushiomote.org/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Redis Lua</title>
+      <link>http://yushiomote.org/posts/redis-lua/</link>
+      <pubDate>Wed, 04 Dec 2019 11:52:25 +0900</pubDate>
+      
+      <guid>http://yushiomote.org/posts/redis-lua/</guid>
+      <description>Compile-time linter for Redis Lua script in Rust It&#39;s about my WIP hobby project I&#39;ve just started.
+Introduction Lua scripting in Redis Redis is a well-known high-performance key-value store. One of its interesting feature is lua scripting.
+Redis has eval command. With the command, you can let redis run a lua script. The following example creates 5 keys by lua script.
+$ redis-cli &amp;gt; eval &amp;#39;for i=1,5 do redis.call(&amp;#34;set&amp;#34;, &amp;#34;key&amp;#34;..i, &amp;#34;value&amp;#34;.</description>
+    </item>
     
     <item>
       <title>My website as Code</title>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <link crossorigin="anonymous" media="all"
+        rel="stylesheet"
+        href="http://yushiomote.org/css/frameworks.css" />
+    <link crossorigin="anonymous" media="all"
+        rel="stylesheet" href="http://yushiomote.org/css/github.css" />
+    <meta name="viewport" content="width=device-width">
+
+    <title>Redis Lua - Yushi Omote</title>
+
+    <link rel="icon" type="image/x-icon" class="js-site-favicon" href="http://yushiomote.org/images/favicon.ico">
+    <meta name="theme-color" content="#1e2327">
+    
+</head>
+
+<body class="env-production emoji-size-boost page-responsive page-profile">
+  <div class="position-relative js-header-wrapper ">
+    <span class="Progress progress-pjax-loader position-fixed width-full js-pjax-loader-bar">
+        <span class="progress-pjax-loader-bar top-0 left-0" style="width: 0%;"></span>
+    </span>
+    <header class="Header js-details-container Details flex-wrap flex-lg-nowrap p-responsive" role="banner">
+        <div class="Header-item d-none d-lg-flex">
+            <a class="Header-link" href="http://yushiomote.org/" aria-label="Homepage"
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+                    width="32" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </div>
+        <div
+            class="Header-item Header-item--full flex-column flex-lg-row width-full flex-order-2 flex-lg-order-none mr-0 mr-lg-3 mt-3 mt-lg-0 Details-content--hidden">
+            <div class="header-search flex-self-stretch flex-lg-self-auto mr-0 mr-lg-3 mb-3 mb-lg-0 scoped-search site-scoped-search js-site-search position-relative js-jump-to"
+                role="combobox" aria-owns="jump-to-results" aria-label="Search or jump to" aria-haspopup="listbox"
+                aria-expanded="false">
+                <div class="position-relative">
+                </div>
+            </div>
+        </div>
+        <div class="Header-item Header-item--full flex-justify-center d-lg-none position-relative" style="margin-right: auto;">
+            <a class="Header-link" href="http://yushiomote.org/" aria-label="Homepage"
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+                    width="32" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </div>
+        <div class="Header-item position-relative mr-0 d-none d-lg-flex">
+            <details class="details-overlay details-reset">
+                <summary class="Header-link" aria-label="View profile and more"
+                    data-ga-click="Header, show menu, icon:avatar">
+                    
+                    <img alt="" class="avatar" src="http://yushiomote.org/images/avatar.gif" height="20" width="20">
+                    
+                </summary>
+            </details>
+        </div>
+    </header>
+</div>
+
+<div id="start-of-content" class="show-on-focus"></div>
+<div id="js-flash-container">
+</div>
+
+  
+<div class="application-main " data-commit-hovercards-enabled="">
+    <div itemscope="" itemtype="http://schema.org/SoftwareSourceCode" class="">
+        <main id="js-repo-pjax-container" data-pjax-container="">
+            <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav pt-0 pt-lg-4 ">
+                <div class="repohead-details-container clearfix container-lg p-responsive d-none d-lg-block">
+                    <div class="mb-3 d-flex">
+                        <h1 class="public css-truncate float-none flex-auto width-fit pl-0">
+                            <a class="avatar mr-1" href="http://yushiomote.org/about/">
+                            
+                                <img
+                                    src="http://yushiomote.org/images/avatar.gif" width="26" height="26">
+                            
+                            </a>
+                            <span class="author"><a
+                                    href="http://yushiomote.org/">Yushi Omote</a></span>
+                            <span class="path-divider">/</span>
+                            <strong itemprop="name" class="css-truncate-target" style="max-width: 410px"><a
+                                    href="http://yushiomote.org/posts/redis-lua/">Redis Lua</a></strong>
+
+                            <div class="d-block text-small text-gray">
+                                Created <time-ago datetime="2019-12-04" class="no-wrap"
+                                    title="Created at 2019/12/04">
+                                    2019-12-04</time-ago>
+                                <span class="file-info-divider"></span>
+                                Modifyd <time-ago datetime="2019-12-04" class="no-wrap"
+                                    title="Modifyd at 2019/12/04">
+                                    2019-12-04</time-ago>
+                            </div>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="container-lg clearfix new-discussion-timeline experiment-repo-nav  p-responsive">
+                <div class="repository-content ">
+                    <div class="Box mt-3 position-relative">
+                        <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
+                            <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                                2036 Words
+                                
+                            </div>
+                        </div>
+
+                        <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
+                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><h1 id="compiletime-linter-for-redis-lua-script-in-rust">Compile-time linter for Redis Lua script in Rust</h1>
+<p>It's about my WIP hobby project I've just started.</p>
+<h2 id="introduction">Introduction</h2>
+<h3 id="lua-scripting-in-redis">Lua scripting in Redis</h3>
+<p><a href="https://redis.io/">Redis</a> is a well-known high-performance key-value store. One of its interesting feature is <code>lua</code> scripting.</p>
+<p>Redis has <a href="https://redis.io/commands/eval"><code>eval</code> command</a>. With the command, you can let redis run a <code>lua</code> script. The following example creates 5 keys by <code>lua</code> script.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ redis-cli
+&gt; eval <span style="color:#e6db74">&#39;for i=1,5 do redis.call(&#34;set&#34;, &#34;key&#34;..i, &#34;value&#34;..i) end&#39;</span> <span style="color:#ae81ff">0</span>
+<span style="color:#f92672">(</span>nil<span style="color:#f92672">)</span>
+&gt; keys *
+ 1<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;key1&#34;</span>
+ 2<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;key2&#34;</span>
+ 3<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;key3&#34;</span>
+ 4<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;key4&#34;</span>
+ 5<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;key5&#34;</span>
+</code></pre></div><p>This feature is convenient when you want to quickly run a complicated combination of commands, especially when some commands are conditional.
+Plus, we can use this feature to achieve atomicity of a set of commands as the <code>lua</code> script is executed atomically.</p>
+<h3 id="using-redis-lua-in-rust">Using Redis Lua in Rust</h3>
+<p>In <code>Rust</code>, there's the nice redis client library, <a href="https://github.com/mitsuhiko/redis-rs"><code>redis-rs</code></a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> redis::open(<span style="color:#e6db74">&#34;redis://localhost:6379&#34;</span>);
+<span style="color:#66d9ef">let</span> connection <span style="color:#f92672">=</span> client.get_connection().unwrap();
+
+redis::cmd(<span style="color:#e6db74">&#34;set&#34;</span>)
+  .arg(<span style="color:#e6db74">&#34;gay&#34;</span>)
+  .arg(<span style="color:#e6db74">&#34;bar&#34;</span>)
+  .query(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection).unwrap();
+</code></pre></div><p>The library of course supports <code>lua</code> scripting.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> redis::open(<span style="color:#e6db74">&#34;redis://localhost:6379&#34;</span>);
+<span style="color:#66d9ef">let</span> connection <span style="color:#f92672">=</span> client.get_connection().unwrap();
+
+<span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> redis::Script::new(r<span style="color:#960050;background-color:#1e0010">&#34;</span>
+  <span style="color:#66d9ef">return</span> ARGV[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> ARGV[<span style="color:#ae81ff">2</span>];
+<span style="color:#960050;background-color:#1e0010">&#34;</span>);
+
+script
+  .arg(<span style="color:#ae81ff">3</span>)
+  .arg(<span style="color:#ae81ff">9</span>)
+  .invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection);
+</code></pre></div><p>So, we can easily leverage redis lua scripting features in Rust. However, while Rust is a safe language, Lua is not. Even though Rust compiler points out most of the problems in your Rust code at compile time, Lua doesn't.
+Yes, it's an interpreter so we cannot know until we actually run it.</p>
+<p>So, we often suffer from runtime problems in the lua part even though the super Rust compiler is beside you. Additionally, debugging in redis lua script is a bit troublesome.
+Typical mistakes we make are:</p>
+<ol>
+<li>Missing arguments.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> redis::Script::new(r<span style="color:#960050;background-color:#1e0010">&#34;</span>
+  <span style="color:#66d9ef">return</span> ARGV[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> ARGV[<span style="color:#ae81ff">2</span>];
+<span style="color:#960050;background-color:#1e0010">&#34;</span>);
+
+script
+  .arg(<span style="color:#ae81ff">3</span>)
+  .invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection);
+</code></pre></div><ol start="2">
+<li>Undefined something.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> redis::Script::new(r<span style="color:#960050;background-color:#1e0010">&#34;</span>
+  local a <span style="color:#f92672">=</span> ARGV[<span style="color:#ae81ff">1</span>]
+
+  module_bar.rocks(gay)    <span style="color:#960050;background-color:#1e0010">#</span> Why does the gay rock <span style="color:#66d9ef">in</span> the bar<span style="color:#f92672">?</span>
+
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> a
+<span style="color:#960050;background-color:#1e0010">&#34;</span>);
+</code></pre></div><ol start="3">
+<li>The sytax is wrong.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> r<span style="color:#960050;background-color:#1e0010">#</span><span style="color:#960050;background-color:#1e0010">&#34;</span>
+  local (<span style="color:#960050;background-color:#1e0010">ノ</span> <span style="color:#960050;background-color:#1e0010">ﾟ</span><span style="color:#960050;background-color:#1e0010">Д</span><span style="color:#960050;background-color:#1e0010">ﾟ</span>)<span style="color:#960050;background-color:#1e0010">ノ</span>　<span style="color:#960050;background-color:#1e0010">＝</span><span style="color:#960050;background-color:#1e0010">＝</span><span style="color:#960050;background-color:#1e0010">＝</span><span style="color:#960050;background-color:#1e0010">＝</span>　<span style="color:#960050;background-color:#1e0010">┻</span><span style="color:#960050;background-color:#1e0010">━</span><span style="color:#960050;background-color:#1e0010">━</span><span style="color:#960050;background-color:#1e0010">┻</span> <span style="color:#f92672">=</span> ARGV[<span style="color:#ae81ff">1</span>]
+<span style="color:#960050;background-color:#1e0010">&#34;</span><span style="color:#960050;background-color:#1e0010">#</span>;
+</code></pre></div><h2 id="redislua">redis-lua</h2>
+<p>To mitigate this problem, I've started making the library <a href="https://github.com/yushiomote/redis-lua">redis-lua</a>.</p>
+<p>With this library, we can do the following things:</p>
+<ol>
+<li>Compile-time lint</li>
+</ol>
+<p>With this library, you can write <code>lua</code> script in the following way.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> lua<span style="color:#f92672">!</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>;
+};
+
+script.invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection);
+</code></pre></div><p>The library runs a linter against the lua script and reports mistakes in the script at the compile time.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> lua<span style="color:#f92672">!</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> x;
+};
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cargo build
+...
+error: in lua: <span style="color:#e6db74">`</span>x<span style="color:#e6db74">`</span> is not defined <span style="color:#f92672">(</span>undefined_variable<span style="color:#f92672">)</span>     
+  --&gt; redis-lua/examples/simple.rs:11:41                   
+   |                         
+<span style="color:#ae81ff">11</span> |         <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> + <span style="color:#ae81ff">2</span> + x;
+   |                        ^
+
+error: aborting due to previous error           
+</code></pre></div><p>It's like ordinal Rust compile error messages. The wrong part is high-lighted, showing the line numbers and file names.</p>
+<ol start="2">
+<li>Safe arguments passing</li>
+</ol>
+<p>You can directly pass Rust variables as arguments in the script.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">39</span>;
+<span style="color:#66d9ef">let</span> y <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>;
+
+<span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> lua<span style="color:#f92672">!</span> {
+  local x <span style="color:#f92672">=</span> <span style="color:#f92672">@</span>x;
+  <span style="color:#66d9ef">return</span> x <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#f92672">@</span>y;
+};
+
+<span style="color:#75715e">// You&#39;ll get the result of `39 * 2 + 42`
+</span></code></pre></div><p>You don't have to worrying about the mismatching between the number of arguments you pass and the number of <code>ARGV</code> in the script.
+Also, if you pass the variable which isn't defined in the Rust side, the compile error lets you know that.</p>
+<p>You may want to reuse the same script, changing the arugments.</p>
+<p>The library supports such case. If you use <code>lua_f</code> macro instead of <code>lua</code> macro, the argument variabls can be set later.
+But the resulting script object forces you to set all the arguments. You cannot call <code>invoke</code> until you set all the required arguments.
+If you miss one, the compile error tells you that.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> lua_f<span style="color:#f92672">!</span>(
+  local v <span style="color:#f92672">=</span> <span style="color:#f92672">@</span>a <span style="color:#f92672">*</span> <span style="color:#f92672">@</span>b <span style="color:#f92672">*</span> <span style="color:#f92672">@</span>c
+  <span style="color:#66d9ef">if</span> v <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">50</span> then
+    <span style="color:#66d9ef">return</span> v .. <span style="color:#e6db74">&#34; &gt; 50&#34;</span>
+  <span style="color:#66d9ef">else</span>
+    <span style="color:#66d9ef">return</span> v .. <span style="color:#e6db74">&#34; &lt;= 50&#34;</span>
+  end
+);
+
+<span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span>..<span style="color:#ae81ff">4</span> {
+    <span style="color:#66d9ef">let</span> s: String <span style="color:#f92672">=</span> script
+                      .a(<span style="color:#ae81ff">15</span>) <span style="color:#960050;background-color:#1e0010">#</span> You cannot omit these methods <span style="color:#960050;background-color:#1e0010">`</span>a<span style="color:#960050;background-color:#1e0010">`</span>, <span style="color:#960050;background-color:#1e0010">`</span>b<span style="color:#960050;background-color:#1e0010">`</span>, <span style="color:#960050;background-color:#1e0010">`</span>c<span style="color:#960050;background-color:#1e0010">`</span>
+                      .b(i)
+                      .c(<span style="color:#ae81ff">3</span>)
+                      .invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection).unwrap();
+    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;{}&#34;</span>, r);
+}
+</code></pre></div><h2 id="how-its-implemented">How it's implemented</h2>
+<h3 id="use-linter-in-procmacro">Use linter in proc-macro</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> lua<span style="color:#f92672">!</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>;
+};
+
+script.invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection);
+</code></pre></div><p>The approach is to use <code>proc-macro</code> and run a <code>lua</code> linter inside. <code>lua!</code> macro is a proc-macro.</p>
+<h4 id="procmacro">proc-macro</h4>
+<p><code>proc-macro</code> is advanced macro feature which allows you to write macro logic itself in Rust. Like normal macros, it is a preprocessing logic which takes Rust code syntax as an argument and generates another Rust code, but inside proc-macro, you can program its logic using the full functionality of Rust, using any Rust crates.</p>
+<p><img src="../../assets/procmacro.png" alt=""></p>
+<p>So, inside proc-macro definition, we can run a linter crate as well. To perform lint, <code>lua</code> proc-macro does the following steps:</p>
+<ol>
+<li>Convert input Rust code to a string.
+<ul>
+<li>The input of proc-macro is kind of a list of tokens.</li>
+<li>So the library convers it to a string like <code>&quot;return 1 + 2 + 3;&quot;</code>.</li>
+</ul>
+</li>
+<li>Run linter against the string.
+<ul>
+<li>If the linter detects an error, we can cause a compile error.</li>
+<li>Compiler errors can be triggered by calling <code>panic</code> or using a diagnostic feature, which I mention later.</li>
+</ul>
+</li>
+<li>Return a generated code.
+<ul>
+<li>It just creates <code>Script</code> instance of <code>redis-rs</code> like <code>redis::Script::new(&quot;return 1 + 2 + 3&quot;)</code>.</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">lua</span>(input: <span style="color:#a6e22e">TokenStream</span>) -&gt; <span style="color:#a6e22e">TokenStream</span> {
+  <span style="color:#75715e">// The argument type is `TokenStream`, 
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// which is basically a list of tokens in Rust.
+</span><span style="color:#75715e"></span>
+  <span style="color:#75715e">// First, convert Rust code to a string.
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">let</span> s <span style="color:#f92672">=</span> input.to_string();
+  
+  <span style="color:#75715e">// Run linter against it.
+</span><span style="color:#75715e"></span>  run_linter(<span style="color:#f92672">&amp;</span>s);
+  
+  <span style="color:#75715e">// Here generate resulting code.
+</span><span style="color:#75715e"></span>  quote<span style="color:#f92672">!</span> {
+    redis::Script::new(<span style="color:#960050;background-color:#1e0010">#</span>s)
+  }
+}
+</code></pre></div><h4 id="selene">Selene</h4>
+<p>The library uses <a href="https://github.com/Kampfkarren/selene"><code>selene</code></a> lua linter. The linter can detect various errors such as undefined variables/modules, zero divison, shadowing parameters and etc.
+We can easily customize standard modules and global variables which are available in scripts, so we can avoid undefined something errors of buitin functions or pre-defined global variables in Redis lua context (such as <code>cmsgpack</code>, <code>cjson</code>, <code>ARGV</code>).</p>
+<p>Here, rather than <code>selene</code> itself, I want to use its library part (<code>selene-lib</code>) because I just want to call linter logic from my proc macro.
+While there's some documentation of <code>selene</code> as a binary, I couldn't find much about <code>selene-lib</code>. But we can easily find out the usage of the library by checking the <code>selene</code> code.</p>
+<ol>
+<li>Parse the string as Lua script
+<ul>
+<li>Actual syntax parsing for lua is done by the crate <code>full_moon</code>.</li>
+</ul>
+</li>
+<li>Pass the configuration to <code>selene-lib</code>, which defines a standard modules and global varibles.</li>
+<li>Run the linter.</li>
+<li>Report the error.
+<ul>
+<li>Here we show compile warnings or errors. The details will be mentioned in the next section.</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">run_linter</span>(script: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Script</span>) {
+  <span style="color:#75715e">// Parse the script by the linter.
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">let</span> ast <span style="color:#f92672">=</span> full_moon::parse(script.script()).unwrap();
+
+  <span style="color:#66d9ef">let</span> std <span style="color:#f92672">=</span> StandardLibrary::from_file(<span style="color:#f92672">&amp;</span>as_path(<span style="color:#f92672">&amp;</span>make_cfg(<span style="color:#f92672">&amp;</span>self.defined))).unwrap();
+  <span style="color:#66d9ef">let</span> cfg: <span style="color:#a6e22e">CheckerConfig</span><span style="color:#f92672">&lt;</span>toml::value::Value<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> toml::from_str(include_str<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;selene.toml&#34;</span>)).unwrap();
+
+  <span style="color:#75715e">// Create a linter
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">let</span> checker <span style="color:#f92672">=</span> SeleneChecker::new(cfg, std.unwrap()).unwrap();
+
+  <span style="color:#75715e">// Run the linter
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> diags <span style="color:#f92672">=</span> checker.test_on(<span style="color:#f92672">&amp;</span>ast);
+  diags.sort_by_key(<span style="color:#f92672">|</span>d<span style="color:#f92672">|</span> d.diagnostic.start_position());
+
+  <span style="color:#75715e">// Emit results as compiler messages
+</span><span style="color:#75715e"></span>  emit_diag(script, diags);
+}
+</code></pre></div><h3 id="improving-error-reports">Improving error reports</h3>
+<p>If <code>selene-lib</code> finds errors, it returns the messages and position in the Lua script.
+We could choose to just show them to library users as compiler errors. However, the position reported by <code>selene-lib</code> is not the position in Rust code.
+So just printing it doesn't help the users who write the Lua script. Sometimes it's even misleading and confusing.</p>
+<p>I want to report the position in Rust code, highligting the wrong part as Rust compiler does for our Rust code.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cargo build
+...
+error: in lua: <span style="color:#e6db74">`</span>x<span style="color:#e6db74">`</span> is not defined <span style="color:#f92672">(</span>undefined_variable<span style="color:#f92672">)</span>     
+  --&gt; redis-lua/examples/simple.rs:11:41                   
+   |                         
+<span style="color:#ae81ff">11</span> |         <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> + <span style="color:#ae81ff">2</span> + x;
+   |                        ^
+
+error: aborting due to previous error           
+</code></pre></div><h4 id="procmacrodiagnostic-feature"><code>proc_macro_diagnostic</code> feature</h4>
+<p>By using this feature, we can control messages in Rust compile errors. Every token given to proc-macro function has the information called <code>span</code>, which contains the position in the original Rust code.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">my_procmacor</span>(tokens: <span style="color:#a6e22e">TokenStream</span>) -&gt; <span style="color:#a6e22e">TokenStream</span> {
+    <span style="color:#66d9ef">for</span> token <span style="color:#66d9ef">in</span> tokens {
+        <span style="color:#66d9ef">let</span> span <span style="color:#f92672">=</span> token.span();
+        
+        <span style="color:#75715e">// This causes compile error, highligting the token.
+</span><span style="color:#75715e"></span>        span.error(<span style="color:#e6db74">&#34;Unexpected token!&#34;</span>).emit();
+        
+        <span style="color:#75715e">// Or, this causes warning.
+</span><span style="color:#75715e"></span>        span.warning(<span style="color:#e6db74">&#34;Suspicious token!&#34;</span>).emit();
+    }
+    ...
+}
+</code></pre></div><p>So, when the linter reports the error position, by finding out the corresponding span, we can create a nicer compile error/warning messages.</p>
+<h3 id="procmacro-limitation">proc-macro limitation</h3>
+<p>There's a three type of <code>proc-macro</code>.</p>
+<ol>
+<li>Derive macros
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[</span><span style="color:#75715e">derive(MyProcMacro)</span><span style="color:#75715e">]</span>  <span style="color:#75715e">// &lt;- This
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Gay</span> {
+   bar: <span style="color:#66d9ef">u32</span>
+}
+</code></pre></div></li>
+<li>Function-like macros
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">my_procmacro<span style="color:#f92672">!</span>(<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Gay</span> { bar: <span style="color:#66d9ef">u32</span> });
+</code></pre></div></li>
+<li>Attribute macros
+<pre><code>#[my_procmacro] // &lt;- This
+fn bar() {
+}
+</code></pre></li>
+</ol>
+<p>Guessing from the shape, <code>2.</code> looks fit our case. However, there's the limitation that function-like proc-macro can be placed at only item position. Not at expression position.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::fmt::Display;
+
+my_procmacro<span style="color:#f92672">!</span>(...); <span style="color:#75715e">// &lt;- Ok here.
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> my_procmacro<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;return 1 + 2&#34;</span>); <span style="color:#75715e">// Not ok here...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>If we want to put function-like proc-macro at the expression position, we can use <a href="https://github.com/dtolnay/proc-macro-hack"><code>proc-macro-hack</code></a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[</span><span style="color:#75715e">proc_macro_hack</span><span style="color:#75715e">]</span> <span style="color:#75715e">// This does the magic (hack).
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">lua</span>(input: <span style="color:#a6e22e">TokenStream</span>) -&gt; <span style="color:#a6e22e">TokenStream</span> {
+   ...
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> lua<span style="color:#f92672">!</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>;
+};
+</code></pre></div><h3 id="safely-passing-arguments">Safely passing arguments</h3>
+<p>How to capture variables from the Rust world?</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">39</span>;
+<span style="color:#66d9ef">let</span> y <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>;
+
+<span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> lua<span style="color:#f92672">!</span> {
+  local x <span style="color:#f92672">=</span> <span style="color:#f92672">@</span>x;
+  <span style="color:#66d9ef">return</span> x <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#f92672">@</span>y;
+};
+</code></pre></div><p>From the code above, we want to generate this code by proc-macro.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">39</span>;
+<span style="color:#66d9ef">let</span> y <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>;
+
+<span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> Script::new(<span style="color:#e6db74">&#34;let __local_v1 = ARGV[1]; let __local_v2 = ARGV[2]; local x = __local_v1; return x * 2 + __local_v2&#34;</span>)
+  .arg(x)
+  .arg(y);
+</code></pre></div><p>This is rather straightforward.</p>
+<ol>
+<li>First, collect the tokens which starts with the marker <code>@</code>.</li>
+<li>Generate the <code>let __local_vN</code> part for each marked tokens.</li>
+<li>Generate the <code>arg(N)</code> part for each marked tokens.</li>
+<li>Concat the generated parts.</li>
+</ol>
+<h4 id="partial-lint">Partial lint</h4>
+<p>As I mentioned earlier, we can tell the linter to accept some pre-defined global variables to avoid causing undefined variables errors.
+Here, if we just allow <code>ARGV</code> in the linter for the generated script, it isn't actually good. If a user writes the script like this,
+the linter still doesn't complain, and we find the script fails at runtime.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> lua<span style="color:#f92672">!</span> {
+   <span style="color:#66d9ef">return</span> ARGV[<span style="color:#ae81ff">42</span>];
+};
+</code></pre></div><p>So, instead of allowing <code>ARGV</code>, I configure the linter so that it accepts only <code>__local_vN</code> and perform check against only the user's script: <code>&quot;local x = __local_v1; return x * 2 + __local_v2&quot;</code>.</p>
+<h3 id="generating-reusable-script-object">Generating reusable script object</h3>
+<p>To achieve the feature to create reusable script object, <code>lua_f</code> macro generates <code>struct</code> for each argument. For example, in the following case,</p>
+<ol>
+<li>Generate a struct which has the method <code>a()</code> only</li>
+<li>Generate a struct which has the method <code>b()</code> only</li>
+<li>Then, the method <code>b()</code> returns a object which has <code>invoke()</code>.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script1 <span style="color:#f92672">=</span> lua_f<span style="color:#f92672">!</span>(
+  local v <span style="color:#f92672">=</span> <span style="color:#f92672">@</span>a <span style="color:#f92672">*</span> <span style="color:#f92672">@</span>b
+  <span style="color:#66d9ef">if</span> v <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">80</span> then
+    <span style="color:#66d9ef">return</span> v .. <span style="color:#e6db74">&#34; &gt; 80&#34;</span>
+  <span style="color:#66d9ef">else</span>
+    <span style="color:#66d9ef">return</span> v .. <span style="color:#e6db74">&#34; &lt;= 80&#34;</span>
+  end
+);
+
+script.a(<span style="color:#ae81ff">10</span>).b(<span style="color:#ae81ff">1</span>).invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection).unwrap();
+script.a(<span style="color:#ae81ff">2</span>).b(<span style="color:#ae81ff">12</span>).invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection).unwrap();
+</code></pre></div><p>Actual generated code is as follows.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script1 <span style="color:#f92672">=</span> {
+        <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">ProcMacroHack</span> {
+            Value <span style="color:#f92672">=</span> ( <span style="color:#e6db74">&#34;local v = @ a * @ b if v &gt; 80 then return v .. \&#34; &gt; 80\&#34; else return v ..\n\&#34; &lt;= 80\&#34; end&#34;</span> , <span style="color:#ae81ff">0</span> ) . <span style="color:#ae81ff">1</span> , }
+        {
+            <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ReusableScript</span>(::redis::Script);
+            <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">___new_type_a</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span>(::redis::ScriptInvocation<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span>);
+            <span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span> ___new_type_a<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span> {
+                <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">a</span>(<span style="color:#66d9ef">mut</span> self, v: <span style="color:#a6e22e">impl</span> ::redis::ToRedisArgs) -&gt; <span style="color:#a6e22e">___new_type_b</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span> {
+                    self.<span style="color:#ae81ff">0.</span>arg(v);
+                    ___new_type_b(self.<span style="color:#ae81ff">0</span>)
+                }
+            }
+            <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">___new_type_b</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span>(::redis::ScriptInvocation<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span>);
+            <span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span> ___new_type_b<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span> {
+                <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">b</span>(<span style="color:#66d9ef">mut</span> self, v: <span style="color:#a6e22e">impl</span> ::redis::ToRedisArgs) -&gt; ::redis::ScriptInvocation<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span> {
+                    self.<span style="color:#ae81ff">0.</span>arg(v);
+                    self.<span style="color:#ae81ff">0</span>
+                }
+            }
+            <span style="color:#66d9ef">impl</span> ReusableScript {
+                <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">a</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">&#39;a</span> self, v: <span style="color:#a6e22e">impl</span> ::redis::ToRedisArgs) -&gt; <span style="color:#a6e22e">___new_type_b</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">&#39;a</span><span style="color:#f92672">&gt;</span> {
+                    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> invoke <span style="color:#f92672">=</span> self.<span style="color:#ae81ff">0.</span>prepare_invoke();
+                    invoke.arg(v);
+                    ___new_type_b(invoke)
+                }
+            }
+            ReusableScript ( :: <span style="color:#a6e22e">redis</span> :: <span style="color:#a6e22e">Script</span> :: <span style="color:#a6e22e">new</span> ( <span style="color:#e6db74">&#34;local __internal_from_args_0 = ARGV[1]; local __internal_from_args_1 = ARGV[2]; \nlocal v = __internal_from_args_0 * __internal_from_args_1 if v &gt; 80 then return v .. \&#34; &gt; 80\&#34; else return v .. \&#34; &lt;= 80\&#34; end&#34;</span> ) )
+        }
+    };
+</code></pre></div><h2 id="misc">Misc</h2>
+<ul>
+<li><code>..</code> is tokenized as two tokens <code>.` `.</code> in Rust, while it's a single operator token <code>..</code> (string concatination) in Lua. So, the library converts input token stream into another stream with convenient form to processing it as Lua script.</li>
+<li>Lua side comments <code>--</code> may not work because new line information is lost during tokenization.
+<ul>
+<li>But we may be able to somehow salvage the information from span.</li>
+</ul>
+</li>
+<li>Script caching is always enabled. Whether users use the reusable script <code>lua_f</code> or not, <code>evalsha</code> is always attempted.</li>
+</ul>
+</article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="utterances"></div>
+<script src="https://utteranc.es/client.js"
+        repo="yushiomote.org"
+        issue-term="title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+  <div class="footer container-lg width-full p-responsive" role="contentinfo">
+    <div
+        class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+        <ul
+            class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+            <li class="mr-3 mr-lg-0">© 2019. Theme by <a href="https://github.com/MeiK2333/github-style"><span>github-style</span></a></li>
+        </ul>
+
+        <a aria-label="Homepage" title="Yushi Omote" class="footer-octicon d-none d-lg-block mx-lg-4"
+            href="http://yushiomote.org/">
+            <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                </path>
+            </svg>
+        </a>
+        <ul
+            class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+        </ul>
+    </div>
+    <div class="d-flex flex-justify-center pb-6">
+        <span class="f6 text-gray-light"></span>
+    </div>
+</div>
+
+<script crossorigin="anonymous"
+    type="application/javascript" src="http://yushiomote.org/js/frameworks.js"></script>
+
+<script crossorigin="anonymous" async="async"
+    type="application/javascript" src="http://yushiomote.org/js/github-bootstrap.js"></script>
+<script>
+    let classs = ['pinned-item-desc', 'text-gray', 'text-small', 'd-block', 'mt-2', 'mb-3'];
+    const pinned_posts = document.getElementsByName('pinned-post');
+    for (let i = 0; i < pinned_posts.length; i++) {
+        for (let j = 0; j < classs.length; j++) {
+            const ps = pinned_posts[i].getElementsByTagName('p');
+            for (let k = 0; k < ps.length; k++) {
+                ps[k].classList.add(classs[j]);
+            }
+        }
+    }
+    classs = [ 'd-inline-block', 'text-gray', 'mb-2', 'pr-4'];
+    const posts_posts = document.getElementsByName('posts-post');
+    for (let i = 0; i < posts_posts.length; i++) {
+        for (let j = 0; j < classs.length; j++) {
+            const ps = posts_posts[i].getElementsByTagName('p');
+            for (let k = 0; k < ps.length; k++) {
+                ps[k].classList.add(classs[j]);
+            }
+        }
+    }
+</script>
+</body>
+
+</html>
