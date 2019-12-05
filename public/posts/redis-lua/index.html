@@ -110,7 +110,7 @@
                     <div class="Box mt-3 position-relative">
                         <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
                             <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
-                                2036 Words
+                                2046 Words
                                 
                             </div>
                         </div>
@@ -225,7 +225,7 @@ error: aborting due to previous error
 <span style="color:#75715e">// You&#39;ll get the result of `39 * 2 + 42`
 </span></code></pre></div><p>You don't have to worrying about the mismatching between the number of arguments you pass and the number of <code>ARGV</code> in the script.
 Also, if you pass the variable which isn't defined in the Rust side, the compile error lets you know that.</p>
-<p>You may want to reuse the same script, changing the arugments.</p>
+<p>You may want to reuse the same script, changing the arguments.</p>
 <p>The library supports such case. If you use <code>lua_f</code> macro instead of <code>lua</code> macro, the argument variabls can be set later.
 But the resulting script object forces you to set all the arguments. You cannot call <code>invoke</code> until you set all the required arguments.
 If you miss one, the compile error tells you that.</p>
@@ -297,6 +297,7 @@ script.invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef
 We can easily customize standard modules and global variables which are available in scripts, so we can avoid undefined something errors of buitin functions or pre-defined global variables in Redis lua context (such as <code>cmsgpack</code>, <code>cjson</code>, <code>ARGV</code>).</p>
 <p>Here, rather than <code>selene</code> itself, I want to use its library part (<code>selene-lib</code>) because I just want to call linter logic from my proc macro.
 While there's some documentation of <code>selene</code> as a binary, I couldn't find much about <code>selene-lib</code>. But we can easily find out the usage of the library by checking the <code>selene</code> code.</p>
+<p>In the function which runs a linter, I did as follows:</p>
 <ol>
 <li>Parse the string as Lua script
 <ul>
@@ -312,7 +313,7 @@ While there's some documentation of <code>selene</code> as a binary, I couldn't 
 </li>
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">run_linter</span>(script: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Script</span>) {
-  <span style="color:#75715e">// Parse the script by the linter.
+  <span style="color:#75715e">// Parse the script by full_moon.
 </span><span style="color:#75715e"></span>  <span style="color:#66d9ef">let</span> ast <span style="color:#f92672">=</span> full_moon::parse(script.script()).unwrap();
 
   <span style="color:#66d9ef">let</span> std <span style="color:#f92672">=</span> StandardLibrary::from_file(<span style="color:#f92672">&amp;</span>as_path(<span style="color:#f92672">&amp;</span>make_cfg(<span style="color:#f92672">&amp;</span>self.defined))).unwrap();
@@ -370,12 +371,12 @@ error: aborting due to previous error
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">my_procmacro<span style="color:#f92672">!</span>(<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Gay</span> { bar: <span style="color:#66d9ef">u32</span> });
 </code></pre></div></li>
 <li>Attribute macros
-<pre><code>#[my_procmacro] // &lt;- This
-fn bar() {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[</span><span style="color:#75715e">my_procmacro</span><span style="color:#75715e">]</span> <span style="color:#75715e">// &lt;- This
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">bar</span>() {
 }
-</code></pre></li>
+</code></pre></div></li>
 </ol>
-<p>Guessing from the shape, <code>2.</code> looks fit our case. However, there's the limitation that function-like proc-macro can be placed at only item position. Not at expression position.</p>
+<p>Guessing from the shape, <code>2.</code> looks what we want. However, there's the limitation that function-like proc-macro can be placed at only item position. Not at expression position.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::fmt::Display;
 
 my_procmacro<span style="color:#f92672">!</span>(...); <span style="color:#75715e">// &lt;- Ok here.

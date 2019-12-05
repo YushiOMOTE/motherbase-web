@@ -158,7 +158,7 @@ let script = lua! {
 You don't have to worrying about the mismatching between the number of arguments you pass and the number of `ARGV` in the script.
 Also, if you pass the variable which isn't defined in the Rust side, the compile error lets you know that.
 
-You may want to reuse the same script, changing the arugments.
+You may want to reuse the same script, changing the arguments.
 
 The library supports such case. If you use `lua_f` macro instead of `lua` macro, the argument variabls can be set later.
 But the resulting script object forces you to set all the arguments. You cannot call `invoke` until you set all the required arguments.
@@ -241,6 +241,8 @@ We can easily customize standard modules and global variables which are availabl
 Here, rather than `selene` itself, I want to use its library part (`selene-lib`) because I just want to call linter logic from my proc macro. 
 While there's some documentation of `selene` as a binary, I couldn't find much about `selene-lib`. But we can easily find out the usage of the library by checking the `selene` code.
 
+In the function which runs a linter, I did as follows:
+
 1. Parse the string as Lua script
     * Actual syntax parsing for lua is done by the crate `full_moon`.
 2. Pass the configuration to `selene-lib`, which defines a standard modules and global varibles.
@@ -250,7 +252,7 @@ While there's some documentation of `selene` as a binary, I couldn't find much a
 
 ```rust
 pub fn run_linter(script: &Script) {
-  // Parse the script by the linter.
+  // Parse the script by full_moon.
   let ast = full_moon::parse(script.script()).unwrap();
 
   let std = StandardLibrary::from_file(&as_path(&make_cfg(&self.defined))).unwrap();
@@ -326,13 +328,13 @@ There's a three type of `proc-macro`.
    my_procmacro!(struct Gay { bar: u32 });
    ```
 3. Attribute macros
-   ```
+   ```rust
    #[my_procmacro] // <- This
    fn bar() {
    }
    ```
 
-Guessing from the shape, `2.` looks fit our case. However, there's the limitation that function-like proc-macro can be placed at only item position. Not at expression position.
+Guessing from the shape, `2.` looks what we want. However, there's the limitation that function-like proc-macro can be placed at only item position. Not at expression position.
 
 ```rust
 use std::fmt::Display;
