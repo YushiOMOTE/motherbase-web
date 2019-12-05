@@ -17,10 +17,10 @@
       <pubDate>Wed, 04 Dec 2019 11:52:25 +0900</pubDate>
       
       <guid>http://yushiomote.org/posts/redis-lua/</guid>
-      <description>Compile-time linter for Redis Lua script in Rust It&#39;s about my WIP hobby project I&#39;ve just started.
-Introduction Lua scripting in Redis Redis is a well-known high-performance key-value store. One of its interesting feature is lua scripting.
-Redis has eval command. With the command, you can let redis run a lua script. The following example creates 5 keys by lua script.
-$ redis-cli &amp;gt; eval &amp;#39;for i=1,5 do redis.call(&amp;#34;set&amp;#34;, &amp;#34;key&amp;#34;..i, &amp;#34;value&amp;#34;.</description>
+      <description>Compile-time linter for Redis Lua script in Rust This is the article for the 5th day of qiita advent calendar.
+It&#39;s about my WIP hobby project I&#39;ve just started.
+Introduction Lua scripting in Redis Redis is a well-known high-performance key-value store. One of its interesting feature is Lua scripting.
+Redis has eval command. With the command, you can let redis run a Lua script. The following example creates 5 keys by Lua script.</description>
     </item>
     
     <item>

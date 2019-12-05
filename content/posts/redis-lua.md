@@ -6,15 +6,17 @@ draft: false
 
 # Compile-time linter for Redis Lua script in Rust
 
+This is the article for [the 5th day of qiita advent calendar](https://qiita.com/advent-calendar/2019/giroppon-fintech).
+
 It's about my WIP hobby project I've just started.
 
 ## Introduction
 
 ### Lua scripting in Redis
 
-[Redis](https://redis.io/) is a well-known high-performance key-value store. One of its interesting feature is `lua` scripting.
+[Redis](https://redis.io/) is a well-known high-performance key-value store. One of its interesting feature is `Lua` scripting.
 
-Redis has [`eval` command](https://redis.io/commands/eval). With the command, you can let redis run a `lua` script. The following example creates 5 keys by `lua` script.
+Redis has [`eval` command](https://redis.io/commands/eval). With the command, you can let redis run a `Lua` script. The following example creates 5 keys by `Lua` script.
 
 ```sh
 $ redis-cli
@@ -29,14 +31,14 @@ $ redis-cli
 ```
 
 This feature is convenient when you want to quickly run a complicated combination of commands, especially when some commands are conditional.
-Plus, we can use this feature to achieve atomicity of a set of commands as the `lua` script is executed atomically.
+Plus, we can use this feature to achieve atomicity of a set of commands as the `Lua` script is executed atomically.
 
 ### Using Redis Lua in Rust
 
 In `Rust`, there's the nice redis client library, [`redis-rs`](https://github.com/mitsuhiko/redis-rs).
 
 ```rust
-let client = redis::open("redis://localhost:6379");
+let client = redis::Client::open("redis://localhost:6379").unwrap();
 let connection = client.get_connection().unwrap();
 
 redis::cmd("set")
@@ -45,10 +47,10 @@ redis::cmd("set")
   .query(&mut connection).unwrap();
 ```
 
-The library of course supports `lua` scripting.
+The library of course supports `Lua` scripting.
 
 ```rust
-let client = redis::open("redis://localhost:6379");
+let client = redis::Client::open("redis://localhost:6379").unwrap();
 let connection = client.get_connection().unwrap();
 
 let script = redis::Script::new(r"
@@ -61,10 +63,10 @@ script
   .invoke(&mut connection);
 ```
 
-So, we can easily leverage redis lua scripting features in Rust. However, while Rust is a safe language, Lua is not. Even though Rust compiler points out most of the problems in your Rust code at compile time, Lua doesn't.
+So, we can easily leverage redis Lua scripting features in Rust. However, while Rust is a safe language, Lua is not. Even though Rust compiler points out most of the problems in your Rust code at compile time, Lua doesn't.
 Yes, it's an interpreter so we cannot know until we actually run it.
 
-So, we often suffer from runtime problems in the lua part even though the super Rust compiler is beside you. Additionally, debugging in redis lua script is a bit troublesome.
+So, we often suffer from runtime problems in the Lua part even though the super Rust compiler is beside you. Additionally, debugging in redis Lua script is a bit troublesome.
 Typical mistakes we make are:
 
 1. Missing arguments.
@@ -107,7 +109,7 @@ With this library, we can do the following things:
 
 1. Compile-time lint
 
-With this library, you can write `lua` script in the following way.
+With this library, you can write `Lua` script in the following way.
 
 ```rust
 let script = lua! {
@@ -117,7 +119,7 @@ let script = lua! {
 script.invoke(&mut connection);
 ```
 
-The library runs a linter against the lua script and reports mistakes in the script at the compile time.
+The library runs a linter against the Lua script and reports mistakes in the script at the compile time.
 
 ```rust
 let script = lua! {
@@ -196,7 +198,7 @@ let script = lua! {
 script.invoke(&mut connection);
 ```
 
-The approach is to use `proc-macro` and run a `lua` linter inside. `lua!` macro is a proc-macro.
+The approach is to use `proc-macro` and run a `Lua` linter inside. `lua!` macro is a proc-macro.
 
 #### proc-macro
 
@@ -204,7 +206,7 @@ The approach is to use `proc-macro` and run a `lua` linter inside. `lua!` macro 
 
 ![](../../assets/procmacro.png)
 
-So, inside proc-macro definition, we can run a linter crate as well. To perform lint, `lua` proc-macro does the following steps:
+So, inside proc-macro definition, we can run a linter crate as well. To perform lint, `Lua` proc-macro does the following steps:
 
 1. Convert input Rust code to a string.
     * The input of proc-macro is kind of a list of tokens.
@@ -235,8 +237,8 @@ fn lua(input: TokenStream) -> TokenStream {
 
 #### Selene
 
-The library uses [`selene`](https://github.com/Kampfkarren/selene) lua linter. The linter can detect various errors such as undefined variables/modules, zero divison, shadowing parameters and etc.
-We can easily customize standard modules and global variables which are available in scripts, so we can avoid undefined something errors of buitin functions or pre-defined global variables in Redis lua context (such as `cmsgpack`, `cjson`, `ARGV`).
+The library uses [`selene`](https://github.com/Kampfkarren/selene) Lua linter. The linter can detect various errors such as undefined variables/modules, zero divison, shadowing parameters and etc.
+We can easily customize standard modules and global variables which are available in scripts, so we can avoid undefined something errors of buitin functions or pre-defined global variables in Redis Lua context (such as `cmsgpack`, `cjson`, `ARGV`).
 
 Here, rather than `selene` itself, I want to use its library part (`selene-lib`) because I just want to call linter logic from my proc macro. 
 While there's some documentation of `selene` as a binary, I couldn't find much about `selene-lib`. But we can easily find out the usage of the library by checking the `selene` code.
@@ -244,7 +246,7 @@ While there's some documentation of `selene` as a binary, I couldn't find much a
 In the function which runs a linter, I did as follows:
 
 1. Parse the string as Lua script
-    * Actual syntax parsing for lua is done by the crate `full_moon`.
+    * Actual syntax parsing for Lua is done by the crate `full_moon`.
 2. Pass the configuration to `selene-lib`, which defines a standard modules and global varibles.
 3. Run the linter.
 4. Report the error.
@@ -381,7 +383,7 @@ From the code above, we want to generate this code by proc-macro.
 let x = 39;
 let y = 42;
 
-let script = Script::new("let __local_v1 = ARGV[1]; let __local_v2 = ARGV[2]; local x = __local_v1; return x * 2 + __local_v2")
+let script = Script::new("local __local_v1 = ARGV[1]; local __local_v2 = ARGV[2]; local x = __local_v1; return x * 2 + __local_v2")
   .arg(x)
   .arg(y);
 ```
@@ -465,7 +467,13 @@ let script1 = {
 
 ## Misc
 
-* `..` is tokenized as two tokens `.` `.` in Rust, while it's a single operator token `..` (string concatination) in Lua. So, the library converts input token stream into another stream with convenient form to processing it as Lua script.
+* `..` is tokenized as two tokens `.`, `.` in Rust, while it's a single operator token `..` (string concatination) in Lua. So, the library converts input token stream into another stream with convenient form to processing it as Lua script.
 * Lua side comments `--` may not work because new line information is lost during tokenization.
     * But we may be able to somehow salvage the information from span.
 * Script caching is always enabled. Whether users use the reusable script `lua_f` or not, `evalsha` is always attempted.
+
+## Summary
+
+* Working on [redis-lua](https://github.com/yushiomote/redis-lua).
+    * The library performs compile-time lint for redis Lua script.
+    * The libray supports safe arguments passing by capturing Rust variables in Lua script.

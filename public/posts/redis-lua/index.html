@@ -110,18 +110,19 @@
                     <div class="Box mt-3 position-relative">
                         <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
                             <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
-                                2046 Words
+                                2084 Words
                                 
                             </div>
                         </div>
 
                         <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
                             <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><h1 id="compiletime-linter-for-redis-lua-script-in-rust">Compile-time linter for Redis Lua script in Rust</h1>
+<p>This is the article for <a href="https://qiita.com/advent-calendar/2019/giroppon-fintech">the 5th day of qiita advent calendar</a>.</p>
 <p>It's about my WIP hobby project I've just started.</p>
 <h2 id="introduction">Introduction</h2>
 <h3 id="lua-scripting-in-redis">Lua scripting in Redis</h3>
-<p><a href="https://redis.io/">Redis</a> is a well-known high-performance key-value store. One of its interesting feature is <code>lua</code> scripting.</p>
-<p>Redis has <a href="https://redis.io/commands/eval"><code>eval</code> command</a>. With the command, you can let redis run a <code>lua</code> script. The following example creates 5 keys by <code>lua</code> script.</p>
+<p><a href="https://redis.io/">Redis</a> is a well-known high-performance key-value store. One of its interesting feature is <code>Lua</code> scripting.</p>
+<p>Redis has <a href="https://redis.io/commands/eval"><code>eval</code> command</a>. With the command, you can let redis run a <code>Lua</code> script. The following example creates 5 keys by <code>Lua</code> script.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ redis-cli
 &gt; eval <span style="color:#e6db74">&#39;for i=1,5 do redis.call(&#34;set&#34;, &#34;key&#34;..i, &#34;value&#34;..i) end&#39;</span> <span style="color:#ae81ff">0</span>
 <span style="color:#f92672">(</span>nil<span style="color:#f92672">)</span>
@@ -132,18 +133,18 @@
  4<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;key4&#34;</span>
  5<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;key5&#34;</span>
 </code></pre></div><p>This feature is convenient when you want to quickly run a complicated combination of commands, especially when some commands are conditional.
-Plus, we can use this feature to achieve atomicity of a set of commands as the <code>lua</code> script is executed atomically.</p>
+Plus, we can use this feature to achieve atomicity of a set of commands as the <code>Lua</code> script is executed atomically.</p>
 <h3 id="using-redis-lua-in-rust">Using Redis Lua in Rust</h3>
 <p>In <code>Rust</code>, there's the nice redis client library, <a href="https://github.com/mitsuhiko/redis-rs"><code>redis-rs</code></a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> redis::open(<span style="color:#e6db74">&#34;redis://localhost:6379&#34;</span>);
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> redis::Client::open(<span style="color:#e6db74">&#34;redis://localhost:6379&#34;</span>).unwrap();
 <span style="color:#66d9ef">let</span> connection <span style="color:#f92672">=</span> client.get_connection().unwrap();
 
 redis::cmd(<span style="color:#e6db74">&#34;set&#34;</span>)
   .arg(<span style="color:#e6db74">&#34;gay&#34;</span>)
   .arg(<span style="color:#e6db74">&#34;bar&#34;</span>)
   .query(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection).unwrap();
-</code></pre></div><p>The library of course supports <code>lua</code> scripting.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> redis::open(<span style="color:#e6db74">&#34;redis://localhost:6379&#34;</span>);
+</code></pre></div><p>The library of course supports <code>Lua</code> scripting.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> client <span style="color:#f92672">=</span> redis::Client::open(<span style="color:#e6db74">&#34;redis://localhost:6379&#34;</span>).unwrap();
 <span style="color:#66d9ef">let</span> connection <span style="color:#f92672">=</span> client.get_connection().unwrap();
 
 <span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> redis::Script::new(r<span style="color:#960050;background-color:#1e0010">&#34;</span>
@@ -154,9 +155,9 @@ script
   .arg(<span style="color:#ae81ff">3</span>)
   .arg(<span style="color:#ae81ff">9</span>)
   .invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection);
-</code></pre></div><p>So, we can easily leverage redis lua scripting features in Rust. However, while Rust is a safe language, Lua is not. Even though Rust compiler points out most of the problems in your Rust code at compile time, Lua doesn't.
+</code></pre></div><p>So, we can easily leverage redis Lua scripting features in Rust. However, while Rust is a safe language, Lua is not. Even though Rust compiler points out most of the problems in your Rust code at compile time, Lua doesn't.
 Yes, it's an interpreter so we cannot know until we actually run it.</p>
-<p>So, we often suffer from runtime problems in the lua part even though the super Rust compiler is beside you. Additionally, debugging in redis lua script is a bit troublesome.
+<p>So, we often suffer from runtime problems in the Lua part even though the super Rust compiler is beside you. Additionally, debugging in redis Lua script is a bit troublesome.
 Typical mistakes we make are:</p>
 <ol>
 <li>Missing arguments.</li>
@@ -190,13 +191,13 @@ script
 <ol>
 <li>Compile-time lint</li>
 </ol>
-<p>With this library, you can write <code>lua</code> script in the following way.</p>
+<p>With this library, you can write <code>Lua</code> script in the following way.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> lua<span style="color:#f92672">!</span> {
   <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>;
 };
 
 script.invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection);
-</code></pre></div><p>The library runs a linter against the lua script and reports mistakes in the script at the compile time.</p>
+</code></pre></div><p>The library runs a linter against the Lua script and reports mistakes in the script at the compile time.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> lua<span style="color:#f92672">!</span> {
   <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> x;
 };
@@ -253,11 +254,11 @@ If you miss one, the compile error tells you that.</p>
 };
 
 script.invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> connection);
-</code></pre></div><p>The approach is to use <code>proc-macro</code> and run a <code>lua</code> linter inside. <code>lua!</code> macro is a proc-macro.</p>
+</code></pre></div><p>The approach is to use <code>proc-macro</code> and run a <code>Lua</code> linter inside. <code>lua!</code> macro is a proc-macro.</p>
 <h4 id="procmacro">proc-macro</h4>
 <p><code>proc-macro</code> is advanced macro feature which allows you to write macro logic itself in Rust. Like normal macros, it is a preprocessing logic which takes Rust code syntax as an argument and generates another Rust code, but inside proc-macro, you can program its logic using the full functionality of Rust, using any Rust crates.</p>
 <p><img src="../../assets/procmacro.png" alt=""></p>
-<p>So, inside proc-macro definition, we can run a linter crate as well. To perform lint, <code>lua</code> proc-macro does the following steps:</p>
+<p>So, inside proc-macro definition, we can run a linter crate as well. To perform lint, <code>Lua</code> proc-macro does the following steps:</p>
 <ol>
 <li>Convert input Rust code to a string.
 <ul>
@@ -293,15 +294,15 @@ script.invoke(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef
   }
 }
 </code></pre></div><h4 id="selene">Selene</h4>
-<p>The library uses <a href="https://github.com/Kampfkarren/selene"><code>selene</code></a> lua linter. The linter can detect various errors such as undefined variables/modules, zero divison, shadowing parameters and etc.
-We can easily customize standard modules and global variables which are available in scripts, so we can avoid undefined something errors of buitin functions or pre-defined global variables in Redis lua context (such as <code>cmsgpack</code>, <code>cjson</code>, <code>ARGV</code>).</p>
+<p>The library uses <a href="https://github.com/Kampfkarren/selene"><code>selene</code></a> Lua linter. The linter can detect various errors such as undefined variables/modules, zero divison, shadowing parameters and etc.
+We can easily customize standard modules and global variables which are available in scripts, so we can avoid undefined something errors of buitin functions or pre-defined global variables in Redis Lua context (such as <code>cmsgpack</code>, <code>cjson</code>, <code>ARGV</code>).</p>
 <p>Here, rather than <code>selene</code> itself, I want to use its library part (<code>selene-lib</code>) because I just want to call linter logic from my proc macro.
 While there's some documentation of <code>selene</code> as a binary, I couldn't find much about <code>selene-lib</code>. But we can easily find out the usage of the library by checking the <code>selene</code> code.</p>
 <p>In the function which runs a linter, I did as follows:</p>
 <ol>
 <li>Parse the string as Lua script
 <ul>
-<li>Actual syntax parsing for lua is done by the crate <code>full_moon</code>.</li>
+<li>Actual syntax parsing for Lua is done by the crate <code>full_moon</code>.</li>
 </ul>
 </li>
 <li>Pass the configuration to <code>selene-lib</code>, which defines a standard modules and global varibles.</li>
@@ -405,7 +406,7 @@ my_procmacro<span style="color:#f92672">!</span>(...); <span style="color:#75715
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">39</span>;
 <span style="color:#66d9ef">let</span> y <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>;
 
-<span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> Script::new(<span style="color:#e6db74">&#34;let __local_v1 = ARGV[1]; let __local_v2 = ARGV[2]; local x = __local_v1; return x * 2 + __local_v2&#34;</span>)
+<span style="color:#66d9ef">let</span> script <span style="color:#f92672">=</span> Script::new(<span style="color:#e6db74">&#34;local __local_v1 = ARGV[1]; local __local_v2 = ARGV[2]; local x = __local_v1; return x * 2 + __local_v2&#34;</span>)
   .arg(x)
   .arg(y);
 </code></pre></div><p>This is rather straightforward.</p>
@@ -473,13 +474,22 @@ script.a(<span style="color:#ae81ff">2</span>).b(<span style="color:#ae81ff">12<
     };
 </code></pre></div><h2 id="misc">Misc</h2>
 <ul>
-<li><code>..</code> is tokenized as two tokens <code>.` `.</code> in Rust, while it's a single operator token <code>..</code> (string concatination) in Lua. So, the library converts input token stream into another stream with convenient form to processing it as Lua script.</li>
+<li><code>..</code> is tokenized as two tokens <code>.</code>, <code>.</code> in Rust, while it's a single operator token <code>..</code> (string concatination) in Lua. So, the library converts input token stream into another stream with convenient form to processing it as Lua script.</li>
 <li>Lua side comments <code>--</code> may not work because new line information is lost during tokenization.
 <ul>
 <li>But we may be able to somehow salvage the information from span.</li>
 </ul>
 </li>
 <li>Script caching is always enabled. Whether users use the reusable script <code>lua_f</code> or not, <code>evalsha</code> is always attempted.</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<ul>
+<li>Working on <a href="https://github.com/yushiomote/redis-lua">redis-lua</a>.
+<ul>
+<li>The library performs compile-time lint for redis Lua script.</li>
+<li>The libray supports safe arguments passing by capturing Rust variables in Lua script.</li>
+</ul>
+</li>
 </ul>
 </article>
                         </div>
