@@ -91,7 +91,7 @@ let script = redis::Script::new(r"
 ");
 ```
 
-3. The sytax is wrong.
+3. The syntax is wrong.
 
 ```rust
 let script = r#"
