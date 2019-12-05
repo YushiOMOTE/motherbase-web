@@ -3,17 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://yushiomote.org/posts/new-website/</loc>
-    <lastmod>2019-12-02T10:14:55+09:00</lastmod>
+    <loc>http://yushiomote.org/posts/</loc>
+    <lastmod>2019-12-04T11:52:25+09:00</lastmod>
   </url>
   
   <url>
-    <loc>http://yushiomote.org/posts/</loc>
-    <lastmod>2019-12-02T10:14:55+09:00</lastmod>
+    <loc>http://yushiomote.org/posts/redis-lua/</loc>
+    <lastmod>2019-12-04T11:52:25+09:00</lastmod>
   </url>
   
   <url>
     <loc>http://yushiomote.org/</loc>
+    <lastmod>2019-12-04T11:52:25+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://yushiomote.org/posts/new-website/</loc>
     <lastmod>2019-12-02T10:14:55+09:00</lastmod>
   </url>
   
