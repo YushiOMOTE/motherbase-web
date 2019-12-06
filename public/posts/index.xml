@@ -6,10 +6,23 @@
     <description>Recent content in Posts on Yushi Omote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 04 Dec 2019 11:52:25 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 06 Dec 2019 11:51:05 +0900</lastBuildDate>
     
 	<atom:link href="http://yushiomote.org/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Chip 8</title>
+      <link>http://yushiomote.org/posts/chip-8/</link>
+      <pubDate>Fri, 06 Dec 2019 11:51:05 +0900</pubDate>
+      
+      <guid>http://yushiomote.org/posts/chip-8/</guid>
+      <description>Chip-8 story This is the article for the 6th day of qiita advent calendar.
+Here I introduce how I played with Chip-8 these days.
+What&#39;s Chip-8? Chip-8 is an interpreted programming language, which was used on some old computer systems. Mostly video games were run on them.
+(from: https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Space_intercept.png/440px-Space_intercept.png)
+Emulating Chip-8 execution environment is really easy; it basically needs only 36 instructions to be emulated. The memory is a simple byte array.</description>
+    </item>
     
     <item>
       <title>Redis Lua</title>
