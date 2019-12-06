@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <link crossorigin="anonymous" media="all"
+        rel="stylesheet"
+        href="http://yushiomote.org/css/frameworks.css" />
+    <link crossorigin="anonymous" media="all"
+        rel="stylesheet" href="http://yushiomote.org/css/github.css" />
+    <meta name="viewport" content="width=device-width">
+
+    <title>Chip 8 - Yushi Omote</title>
+
+    <link rel="icon" type="image/x-icon" class="js-site-favicon" href="http://yushiomote.org/images/favicon.ico">
+    <meta name="theme-color" content="#1e2327">
+    
+</head>
+
+<body class="env-production emoji-size-boost page-responsive page-profile">
+  <div class="position-relative js-header-wrapper ">
+    <span class="Progress progress-pjax-loader position-fixed width-full js-pjax-loader-bar">
+        <span class="progress-pjax-loader-bar top-0 left-0" style="width: 0%;"></span>
+    </span>
+    <header class="Header js-details-container Details flex-wrap flex-lg-nowrap p-responsive" role="banner">
+        <div class="Header-item d-none d-lg-flex">
+            <a class="Header-link" href="http://yushiomote.org/" aria-label="Homepage"
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+                    width="32" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </div>
+        <div
+            class="Header-item Header-item--full flex-column flex-lg-row width-full flex-order-2 flex-lg-order-none mr-0 mr-lg-3 mt-3 mt-lg-0 Details-content--hidden">
+            <div class="header-search flex-self-stretch flex-lg-self-auto mr-0 mr-lg-3 mb-3 mb-lg-0 scoped-search site-scoped-search js-site-search position-relative js-jump-to"
+                role="combobox" aria-owns="jump-to-results" aria-label="Search or jump to" aria-haspopup="listbox"
+                aria-expanded="false">
+                <div class="position-relative">
+                </div>
+            </div>
+        </div>
+        <div class="Header-item Header-item--full flex-justify-center d-lg-none position-relative" style="margin-right: auto;">
+            <a class="Header-link" href="http://yushiomote.org/" aria-label="Homepage"
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+                    width="32" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </div>
+        <div class="Header-item position-relative mr-0 d-none d-lg-flex">
+            <details class="details-overlay details-reset">
+                <summary class="Header-link" aria-label="View profile and more"
+                    data-ga-click="Header, show menu, icon:avatar">
+                    
+                    <img alt="" class="avatar" src="http://yushiomote.org/images/avatar.gif" height="20" width="20">
+                    
+                </summary>
+            </details>
+        </div>
+    </header>
+</div>
+
+<div id="start-of-content" class="show-on-focus"></div>
+<div id="js-flash-container">
+</div>
+
+  
+<div class="application-main " data-commit-hovercards-enabled="">
+    <div itemscope="" itemtype="http://schema.org/SoftwareSourceCode" class="">
+        <main id="js-repo-pjax-container" data-pjax-container="">
+            <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav pt-0 pt-lg-4 ">
+                <div class="repohead-details-container clearfix container-lg p-responsive d-none d-lg-block">
+                    <div class="mb-3 d-flex">
+                        <h1 class="public css-truncate float-none flex-auto width-fit pl-0">
+                            <a class="avatar mr-1" href="http://yushiomote.org/about/">
+                            
+                                <img
+                                    src="http://yushiomote.org/images/avatar.gif" width="26" height="26">
+                            
+                            </a>
+                            <span class="author"><a
+                                    href="http://yushiomote.org/">Yushi Omote</a></span>
+                            <span class="path-divider">/</span>
+                            <strong itemprop="name" class="css-truncate-target" style="max-width: 410px"><a
+                                    href="http://yushiomote.org/posts/chip-8/">Chip 8</a></strong>
+
+                            <div class="d-block text-small text-gray">
+                                Created <time-ago datetime="2019-12-06" class="no-wrap"
+                                    title="Created at 2019/12/06">
+                                    2019-12-06</time-ago>
+                                <span class="file-info-divider"></span>
+                                Modifyd <time-ago datetime="2019-12-06" class="no-wrap"
+                                    title="Modifyd at 2019/12/06">
+                                    2019-12-06</time-ago>
+                            </div>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="container-lg clearfix new-discussion-timeline experiment-repo-nav  p-responsive">
+                <div class="repository-content ">
+                    <div class="Box mt-3 position-relative">
+                        <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
+                            <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                                786 Words
+                                
+                            </div>
+                        </div>
+
+                        <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
+                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><h1 id="chip8-story">Chip-8 story</h1>
+<p>This is the article for <a href="https://qiita.com/advent-calendar/2019/giroppon-fintech">the 6th day of qiita advent calendar</a>.</p>
+<p>Here I introduce how I played with Chip-8 these days.</p>
+<h2 id="whats-chip8">What's Chip-8?</h2>
+<p><a href="https://en.wikipedia.org/wiki/CHIP-8">Chip-8</a> is an interpreted programming language, which was used on some old computer systems. Mostly video games were run on them.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Space_intercept.png/440px-Space_intercept.png" alt=""></p>
+<p>(from: <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Space_intercept.png/440px-Space_intercept.png">https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Space_intercept.png/440px-Space_intercept.png</a>)</p>
+<p>Emulating Chip-8 execution environment is really easy; it basically needs only 36 instructions to be emulated. The memory is a simple byte array. Regarding I/O, it has only two timers, a keyboard, a sound and graphics, all of which are fairly simple. Because of the simplicity, Chip-8 is kind of a toy for emulation beginners these days.</p>
+<p>In this post, I'll just introduce how I played with Chip-8, rather than how to write Chip-8 emulator. There're already many resources on the Internet about how to emulate. <a href="http://devernay.free.fr/hacks/chip8/C8TECH10.HTM">This document</a> explains the specification well. If you want to emulate Chip-8, you can refer it.</p>
+<h2 id="chip8-in-pythonista-on-ios">Chip-8 in Pythonista on iOS</h2>
+<p><a href="http://omz-software.com/pythonista/">Pythonista 3</a> is a Python development environment which runs on iOS. By using it, you can write Python program on iPhone. When I first saw this app, I was a Python beginner. The app was so attractive to me because I could practice Python on commuter trains by writing/running code. My colleague was writing some games with Pythonista. So I also decided to write some games. But, after all, I was writing Chip-8 emulator.</p>
+<p>The code is in the repository, <a href="https://github.com/YushiOMOTE/iChip8">iChip8</a>.</p>
+<p>So, this is the Chip-8 emulator written in Python, which runs on Pythonista 3, which runs on iOS.</p>
+<p><img src="https://raw.github.com/wiki/YushiOMOTE/iChip8/media/demo.gif" alt="demo"></p>
+<p>When you launch the app, first, you are asked to choose a game ROM to play.</p>
+<p><img src="../../assets/chip8/menu.png" alt=""></p>
+<p>The game ROM files are not bundled in the app. They are hosted on web (Currently, it's on <a href="http://old.yushiomote.org/rom)">http://old.yushiomote.org/rom)</a>. When you choose one, it's downloaded.</p>
+<p><img src="../../assets/chip8/games.png" alt=""></p>
+<p>The games are playable. You can enjoy them on the trains or buses on your iPhone. (But the problem is that Chip-8 key mappings are not intuitive and difficult to remember. :/)</p>
+<h3 id="configuration">Configuration</h3>
+<p>Running old technology in a new hardware sometimes is too fast. So, the emulator has configuration to insert some delays.</p>
+<p><img src="../../assets/chip8/settings.png" alt=""></p>
+<p>Stack size, entry point, RAM size and etc. are configurable too, though I think it's useless.</p>
+<p>If you enable instruction trace, the executed instructions are printed in the console.</p>
+<p><img src="../../assets/chip8/instlog.png" alt=""></p>
+<h2 id="chip8-in-rust">Chip-8 in Rust</h2>
+<p>I also wrote Chip-8 in Rust.</p>
+<p><img src="../../assets/chip8/rust.png" alt=""></p>
+<p>The Chip-8 emulator is published a library, <a href="https://crates.io/crates/libchip8">libchip8</a>. This library contains the environment-indepdendent part of emulation logic, expecting the users to define environment specific parts.</p>
+<h3 id="nostd">no_std</h3>
+<p>The Chip-8 emulator is <code>no_std</code> library. In Rust, <code>no_std</code> means that the library doesn't depend on any OS-specific functions. So, the library can be easily ported to various platforms including embedded systems, and even to bare-metal (no OS).</p>
+<h3 id="the-interface">The interface</h3>
+<p>When you want to run <code>libchip8</code> on your platform, you only need to implement this trait.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> Hardware: Sized {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">rand</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; <span style="color:#66d9ef">u8</span>;
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">key</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, key: <span style="color:#66d9ef">u8</span>) -&gt; <span style="color:#66d9ef">bool</span>;
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">vram_set</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, x: <span style="color:#66d9ef">usize</span>, y: <span style="color:#66d9ef">usize</span>, d: <span style="color:#66d9ef">bool</span>);
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">vram_get</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, x: <span style="color:#66d9ef">usize</span>, y: <span style="color:#66d9ef">usize</span>) -&gt; <span style="color:#66d9ef">bool</span>;
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">vram_setsize</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, size: (<span style="color:#66d9ef">usize</span>, <span style="color:#66d9ef">usize</span>));
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">vram_size</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; (<span style="color:#66d9ef">usize</span>, <span style="color:#66d9ef">usize</span>);
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">clock</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; <span style="color:#66d9ef">u64</span>;
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">beep</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self);
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">sched</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; <span style="color:#66d9ef">bool</span> { ... }
+}
+</code></pre></div><p>Once it's implemented, you have a Chip-8 emulator.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Hardware</span>;
+
+<span style="color:#75715e">// 1. Implement `libchip8::Hardware`
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span> libchip8::Hardware <span style="color:#66d9ef">for</span> Hardware {
+<span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// 2. Run `Chip8` giving a rom binary.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> chip8 <span style="color:#f92672">=</span> libchip8::Chip8::new(Hardware);
+chip8.run(include_bytes<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;roms/invaders.ch8&#34;</span>));
+</code></pre></div><h2 id="chip8-landed-on-baremetal">Chip-8 landed on bare-metal</h2>
+<p><code>libchip8</code> is <code>no_std</code>. So it can run on bare-metal (no OS).</p>
+<h3 id="uefi-macbook-pro">UEFI (Macbook Pro)</h3>
+<p>By using <code>libchip8</code>, <a href="https://github.com/yushiomote/chip8book">This project</a> runs Chip-8 on Macbook Pro.</p>
+<p><img src="https://raw.github.com/wiki/YushiOMOTE/chip8book/ch8.jpg" alt=""></p>
+<p><img src="../../assets/chip8/chip8uefi.png" alt=""></p>
+<p>On Macbook, software is booted by the firmware called <a href="https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface">UEFI</a>. So, the Chip-8 emulator needs to be UEFI bootable. There's already a nice library, <a href="https://github.com/rust-osdev/uefi-rs/">uefi-rs</a>. By using this library, we can easily write UEFI bootable apps.
+So I simply combined <code>uefi-rs</code> and <code>libchip8</code>. Cross-compiling to create uefi binary is so easy. You can use <a href="https://github.com/rust-osdev/cargo-xbuild">cargo-xbuild</a>. Simply you can build as follows.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cargo xbuild --target x86_64-unknown-uefi
+</code></pre></div><h3 id="bios">BIOS</h3>
+<p>I tried <code>libchip8</code> on BIOS this afternoon, and saw it worked on QEMU. This is the project, <a href="https://github.com/YushiOMOTE/chip8pc">chip8pc</a>.</p>
+<p><img src="../../assets/chip8/chip8bios.png" alt=""></p>
+<p>Well&hellip; Sorry the picture looks the same as the one on UEFI (Both are on QEMU with black and white graphics).</p>
+<p>There're already some helpful crates to write BIOS bootable apps in Rust.</p>
+<ul>
+<li><a href="https://github.com/rust-osdev/bootloader">bootloader</a>: Bootloader written in Rust, which can boot Rust apps.</li>
+<li><a href="https://github.com/rust-osdev/x86_64">x86_64</a>: Library to use x86_64 hardware in Rust.</li>
+</ul>
+<p>So I simply used <code>libchip8</code> with them.</p>
+<p>In both BIOS and UEFI case, I didn't spend much time thanks to existing libraries. How nice Rust ecosystem is! Even for the low level coding, we can easily rely on the great jobs done by other people, saving much time.</p>
+<h2 id="summary">Summary</h2>
+<ul>
+<li>Chip-8 everywhere.</li>
+<li>Rust ecosystem is awesome.</li>
+</ul>
+</article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="utterances"></div>
+<script src="https://utteranc.es/client.js"
+        repo="yushiomote.org"
+        issue-term="title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+  <div class="footer container-lg width-full p-responsive" role="contentinfo">
+    <div
+        class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+        <ul
+            class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+            <li class="mr-3 mr-lg-0">© 2019. Theme by <a href="https://github.com/MeiK2333/github-style"><span>github-style</span></a></li>
+        </ul>
+
+        <a aria-label="Homepage" title="Yushi Omote" class="footer-octicon d-none d-lg-block mx-lg-4"
+            href="http://yushiomote.org/">
+            <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                </path>
+            </svg>
+        </a>
+        <ul
+            class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+        </ul>
+    </div>
+    <div class="d-flex flex-justify-center pb-6">
+        <span class="f6 text-gray-light"></span>
+    </div>
+</div>
+
+<script crossorigin="anonymous"
+    type="application/javascript" src="http://yushiomote.org/js/frameworks.js"></script>
+
+<script crossorigin="anonymous" async="async"
+    type="application/javascript" src="http://yushiomote.org/js/github-bootstrap.js"></script>
+<script>
+    let classs = ['pinned-item-desc', 'text-gray', 'text-small', 'd-block', 'mt-2', 'mb-3'];
+    const pinned_posts = document.getElementsByName('pinned-post');
+    for (let i = 0; i < pinned_posts.length; i++) {
+        for (let j = 0; j < classs.length; j++) {
+            const ps = pinned_posts[i].getElementsByTagName('p');
+            for (let k = 0; k < ps.length; k++) {
+                ps[k].classList.add(classs[j]);
+            }
+        }
+    }
+    classs = [ 'd-inline-block', 'text-gray', 'mb-2', 'pr-4'];
+    const posts_posts = document.getElementsByName('posts-post');
+    for (let i = 0; i < posts_posts.length; i++) {
+        for (let j = 0; j < classs.length; j++) {
+            const ps = posts_posts[i].getElementsByTagName('p');
+            for (let k = 0; k < ps.length; k++) {
+                ps[k].classList.add(classs[j]);
+            }
+        }
+    }
+</script>
+</body>
+
+</html>
