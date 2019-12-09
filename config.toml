@@ -2,7 +2,7 @@ baseURL = "http://yushiomote.org/"
 languageCode = "en-us"
 title = "Yushi Omote"
 theme = "github-style"
-googleAnalytics = "UA-33715721-3"
+googleAnalytics = "UA-33715721-1"
 
 [params]
 author = "Yushi Omote"
