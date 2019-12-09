@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <link crossorigin="anonymous" media="all"
+        rel="stylesheet"
+        href="http://yushiomote.org/css/frameworks.css" />
+    <link crossorigin="anonymous" media="all"
+        rel="stylesheet" href="http://yushiomote.org/css/github.css" />
+    <meta name="viewport" content="width=device-width">
+
+    <title>Writing gameboy emulator in Rust - Yushi Omote</title>
+
+    <link rel="icon" type="image/x-icon" class="js-site-favicon" href="http://yushiomote.org/images/favicon.ico">
+    <meta name="theme-color" content="#1e2327">
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-33715721-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+
+<body class="env-production emoji-size-boost page-responsive page-profile">
+  <div class="position-relative js-header-wrapper ">
+    <span class="Progress progress-pjax-loader position-fixed width-full js-pjax-loader-bar">
+        <span class="progress-pjax-loader-bar top-0 left-0" style="width: 0%;"></span>
+    </span>
+    <header class="Header js-details-container Details flex-wrap flex-lg-nowrap p-responsive" role="banner">
+        <div class="Header-item d-none d-lg-flex">
+            <a class="Header-link" href="http://yushiomote.org/" aria-label="Homepage"
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+                    width="32" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </div>
+        <div
+            class="Header-item Header-item--full flex-column flex-lg-row width-full flex-order-2 flex-lg-order-none mr-0 mr-lg-3 mt-3 mt-lg-0 Details-content--hidden">
+            <div class="header-search flex-self-stretch flex-lg-self-auto mr-0 mr-lg-3 mb-3 mb-lg-0 scoped-search site-scoped-search js-site-search position-relative js-jump-to"
+                role="combobox" aria-owns="jump-to-results" aria-label="Search or jump to" aria-haspopup="listbox"
+                aria-expanded="false">
+                <div class="position-relative">
+                </div>
+            </div>
+        </div>
+        <div class="Header-item Header-item--full flex-justify-center d-lg-none position-relative" style="margin-right: auto;">
+            <a class="Header-link" href="http://yushiomote.org/" aria-label="Homepage"
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+                    width="32" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </div>
+        <div class="Header-item position-relative mr-0 d-none d-lg-flex">
+            <details class="details-overlay details-reset">
+                <summary class="Header-link" aria-label="View profile and more"
+                    data-ga-click="Header, show menu, icon:avatar">
+                    
+                    <img alt="" class="avatar" src="http://yushiomote.org/images/avatar.gif" height="20" width="20">
+                    
+                </summary>
+            </details>
+        </div>
+    </header>
+</div>
+
+<div id="start-of-content" class="show-on-focus"></div>
+<div id="js-flash-container">
+</div>
+
+  
+<div class="application-main " data-commit-hovercards-enabled="">
+    <div itemscope="" itemtype="http://schema.org/SoftwareSourceCode" class="">
+        <main id="js-repo-pjax-container" data-pjax-container="">
+            <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav pt-0 pt-lg-4 ">
+                <div class="repohead-details-container clearfix container-lg p-responsive d-none d-lg-block">
+                    <div class="mb-3 d-flex">
+                        <h1 class="public css-truncate float-none flex-auto width-fit pl-0">
+                            <a class="avatar mr-1" href="http://yushiomote.org/about/">
+                            
+                                <img
+                                    src="http://yushiomote.org/images/avatar.gif" width="26" height="26">
+                            
+                            </a>
+                            <span class="author"><a
+                                    href="http://yushiomote.org/">Yushi Omote</a></span>
+                            <span class="path-divider">/</span>
+                            <strong itemprop="name" class="css-truncate-target" style="max-width: 410px"><a
+                                    href="http://yushiomote.org/posts/gameboy-emu/">Writing gameboy emulator in Rust</a></strong>
+
+                            <div class="d-block text-small text-gray">
+                                Created <time-ago datetime="2019-12-09" class="no-wrap"
+                                    title="Created at 2019/12/09">
+                                    2019-12-09</time-ago>
+                                <span class="file-info-divider"></span>
+                                Modifyd <time-ago datetime="2019-12-09" class="no-wrap"
+                                    title="Modifyd at 2019/12/09">
+                                    2019-12-09</time-ago>
+                            </div>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="container-lg clearfix new-discussion-timeline experiment-repo-nav  p-responsive">
+                <div class="repository-content ">
+                    <div class="Box mt-3 position-relative">
+                        <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
+                            <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                                2634 Words
+                                
+                            </div>
+                        </div>
+
+                        <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
+                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text">
+                                <h1>Writing gameboy emulator in Rust</h1><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#instruction-emulation">Instruction emulation</a>
+      <ul>
+        <li><a href="#cpu-specification">CPU specification</a></li>
+        <li><a href="#code-generation">Code generation</a></li>
+      </ul>
+    </li>
+    <li><a href="#memory-emulation">Memory emulation</a></li>
+    <li><a href="#io-emulation">I/O emulation</a>
+      <ul>
+        <li><a href="#gpu">Gpu</a></li>
+        <li><a href="#sound">Sound</a></li>
+        <li><a href="#mbc">MBC</a></li>
+      </ul>
+    </li>
+    <li><a href="#debugger">Debugger</a></li>
+    <li><a href="#speed-control">Speed control</a>
+      <ul>
+        <li><a href="#without-speed-moderation">Without speed moderation</a></li>
+        <li><a href="#with-speed-moderation">With speed moderation</a></li>
+      </ul>
+    </li>
+    <li><a href="#nostd">no_std</a></li>
+    <li><a href="#pythonista-3">Pythonista 3</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+                                <h2 id="introduction">Introduction</h2>
+<p>This is the article for <a href="https://qiita.com/advent-calendar/2019/giroppon-fintech">the 8th day of qiita advent calendar</a>.</p>
+<p>I'm writing gameboy emulator in Rust.</p>
+<p><a href="https://github.com/YushiOMOTE/gbr"><figure>
+    <img src="../../cards/gbr.png" width="400px"/> 
+</figure>
+</a></p>
+<p>I've confirmed some major titles are playable.</p>
+<ul>
+<li>Kirby's Dream Land</li>
+<li>Super Mario Land</li>
+<li>Dr. Mario</li>
+<li>Donkey Kong Land</li>
+<li>Tetris</li>
+<li>Pokemon Red/Green</li>
+<li>The Legend of Zelda</li>
+<li>Mega Man</li>
+<li>&hellip;</li>
+</ul>
+<p><figure>
+    <img src="https://raw.github.com/wiki/YushiOMOTE/gbr/media/demo.gif" width="650px"/> 
+</figure>
+
+<figure>
+    <img src="https://raw.github.com/wiki/YushiOMOTE/gbr/media/demo_screens_2.jpg" width="650px"/> 
+</figure>
+</p>
+<p>In this post, I'm going to describe some internals of the emulator.</p>
+<h2 id="instruction-emulation">Instruction emulation</h2>
+<h3 id="cpu-specification">CPU specification</h3>
+<p>The CPU of the gameboy is LR35902, it's a hybrid of Zilog Z80 and Intel 8080.</p>
+<p>The register set is fairly simple. It has only 7 general purpose registers, a flag register (<code>f</code>), a program counter (<code>pc</code>) and a stack pointer (<code>sp</code>).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Cpu</span> {
+    a: <span style="color:#66d9ef">u8</span>,
+    b: <span style="color:#66d9ef">u8</span>,
+    c: <span style="color:#66d9ef">u8</span>,
+    d: <span style="color:#66d9ef">u8</span>,
+    e: <span style="color:#66d9ef">u8</span>,
+    f: <span style="color:#66d9ef">u8</span>, <span style="color:#75715e">// flag register
+</span><span style="color:#75715e"></span>    h: <span style="color:#66d9ef">u8</span>,
+    l: <span style="color:#66d9ef">u8</span>,
+    pc: <span style="color:#66d9ef">u16</span>, <span style="color:#75715e">// program counter
+</span><span style="color:#75715e"></span>    sp: <span style="color:#66d9ef">u16</span>, <span style="color:#75715e">// stack pointer
+</span><span style="color:#75715e"></span>    ...
+}
+</code></pre></div><p>It has only 4 flags, which are stored in the upper four bits of the flag register.</p>
+<ul>
+<li><code>z</code> (zero flag)</li>
+<li><code>n</code> (negative flag)</li>
+<li><code>h</code> (half-carry flag)</li>
+<li><code>c</code> (carry flag)</li>
+</ul>
+<p>There're about 500 instructions supported by the CPU, which can be roughly divided into these 5 types:</p>
+<ol>
+<li>Jump instructions</li>
+<li>Load/store instructions</li>
+<li>Arithmetic/logical</li>
+<li>Rotation/shift</li>
+<li>Misc (stop CPU, interrupt disable/enable)</li>
+</ol>
+<p><a href="http://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html">This</a> is the table of all the instructions.</p>
+<h3 id="code-generation">Code generation</h3>
+<p>As the CPU has about 500 instructions, writing all of the emulation code by hand sounds troublesome. So I generated the code. What I did is as follows:</p>
+<ol>
+<li>Scrape a web page of the instruction specification.</li>
+<li>Convert the instruction specification to a single yaml file.</li>
+<li>Generate Rust code from the yaml file by using a template engine.</li>
+</ol>
+<h4 id="scraping">Scraping</h4>
+<p>By scraping <a href="http://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html">this website</a>, I retrieved the information needed to generate the emulation code.</p>
+<p>The information is:</p>
+<ol>
+<li><code>opcode</code>: One or two bytes number which is an identifier of an instruction.</li>
+<li><code>size</code>: The size of instruction, including the size of immediate values.</li>
+<li><code>operator</code>: The type of operation to perform such as <code>add</code> and <code>sub</code>.</li>
+<li><code>operands</code>: The resources to be read/written by the instruction. Typically, they are registers or immediate values (one or two bytes number which comes after the opcode).</li>
+<li><code>operand width</code>: The information about whether this instruction handles 8-bit data or 16-bit data.</li>
+<li><code>flags</code>: The information about how the 4 flags in the flag register are updated after the instruction execution.</li>
+<li><code>cycles</code>: The number of cycles required to execute the instruction. This is important when we emulate I/O devices together with CPU.</li>
+</ol>
+<p>I used the crate, <a href="https://docs.rs/scraper/0.11.0/scraper/">scraper</a> for scraping, and visited each cell in the instruction table.</p>
+<p>In each cell, we need to parse a string like this:</p>
+<pre><code> LD (BC),A
+  1  8
+ - - - -
+</code></pre><p>I used <a href="https://github.com/pest-parser/pest">pest</a> parser library to parse the string. With this library, once we define <a href="https://en.wikipedia.org/wiki/Parsing_expression_grammar">parsing expression grammars (PEG)</a>, we can easily extract strings we need. This is the PEG I wrote.</p>
+<pre><code class="language-peg" data-lang="peg">Mnemonic = ${
+    Operator ~ (Delim ~ Operand)*
+}
+
+Delim = _{ &quot; &quot; | &quot;,&quot; }
+
+Operator = { ASCII_ALPHANUMERIC+ }
+
+Operand = { (ASCII_ALPHANUMERIC | &quot;+&quot; | &quot;-&quot; | &quot;(&quot; | &quot;)&quot;)+ }
+
+Space = _{
+    &quot;&amp;nbsp;&quot;
+}
+
+Newline = _{
+    &quot;&lt;br&gt;&quot;
+}
+
+Number = { (ASCII_DIGIT | &quot;/&quot;)+ }
+
+Z = { &quot;Z&quot; }
+N = { &quot;N&quot; }
+H = { &quot;H&quot; }
+C = { &quot;C&quot; }
+NotAffect = { &quot;-&quot; }
+Set = { &quot;1&quot; }
+Unset = { &quot;0&quot; }
+
+Flag = _{ Z | N | H | C | NotAffect | Set | Unset }
+
+Flags = ${ Flag ~ &quot; &quot; ~ Flag ~ &quot; &quot; ~ Flag ~ &quot; &quot; ~ Flag }
+
+Instruction = _{ Mnemonic ~ Newline ~ Number ~ Space ~ Space ~ Number ~ Newline ~ Flags }
+</code></pre><h4 id="converting-to-yaml">Converting to YAML</h4>
+<p>I converted the retrieved information to <a href="https://github.com/YushiOMOTE/gbr/blob/master/codegen/inst.patched.yml">the yaml file</a>. The yaml data structure for the instruction <code>LD (BC),A</code> is as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- code: <span style="color:#ae81ff">2</span>          <span style="color:#75715e"># Opcode is 0x02</span>
+  operator: ld
+  operands:
+    - (bc)
+    - a
+  bits: <span style="color:#ae81ff">8</span>          <span style="color:#75715e"># 8-bit data is loaded</span>
+  size: <span style="color:#ae81ff">1</span>          <span style="color:#75715e"># One byte instruction</span>
+  time: <span style="color:#ae81ff">8</span>          <span style="color:#75715e"># 8 cycles are consumed by this instruction</span>
+  z: <span style="color:#e6db74">&#34;-&#34;</span>           <span style="color:#75715e"># No flags are affected by this instruction</span>
+  n: <span style="color:#e6db74">&#34;-&#34;</span>
+  h: <span style="color:#e6db74">&#34;-&#34;</span>
+  c: <span style="color:#e6db74">&#34;-&#34;</span>
+</code></pre></div><p>Later I found that some of the information in the original website was wrong. So <a href="https://github.com/YushiOMOTE/gbr/blob/master/codegen/inst.patch">I patched the generated yaml</a>.
+I may report this to the owner of the website.</p>
+<h4 id="generating-rust-code">Generating Rust code</h4>
+<p>I used <a href="https://github.com/Keats/tera">tera</a>, the famous Rust template engine, which is similar to Jinja2.</p>
+<p>I basically wrote a template macro for each operator (some operators need more than one template macros). For example, for <code>ld</code> operator, I wrote this macro.</p>
+<pre><code class="language-jinja2" data-lang="jinja2">{% macro ld(i) %}
+  let v = {{ i.operands[1] | getter(bits=i.bits) }};
+  {{ i.operands[0] | setter(bits=i.bits) }}v);
+{% endmacro %}
+</code></pre><p>There are actually many <code>ld</code> instructions (<code>87</code> instructions), but from this single macro, Rust code for all of them are generated.</p>
+<pre><code>LD BC,d16
+LD (BC),A
+LD B,d8
+LD A,(BC)
+...
+LD A,(a16)
+</code></pre><p>Totally, I implemented <code>52 macros</code> by hand, and generated <code>501 instructions</code>. <a href="https://github.com/YushiOMOTE/gbr/blob/master/core/src/inst.rs">The generated code</a> is about <code>7000 lines of code</code>.</p>
+<p>This is the generated code for <code>LD (BC),A</code>. Each generated instruction is simple and readable. <code>Cpu</code> represents the CPU state and <code>Mmu</code> represents the memory state.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#e6db74">/// ld (bc),a
+</span><span style="color:#e6db74"></span><span style="color:#75715e">#[</span><span style="color:#75715e">allow(unused_variables)</span><span style="color:#75715e">]</span>
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">op_0002</span>(arg: <span style="color:#66d9ef">u16</span>, cpu: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Cpu, mmu: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Mmu) -&gt; (<span style="color:#66d9ef">usize</span>, <span style="color:#66d9ef">usize</span>) {
+    <span style="color:#66d9ef">let</span> v <span style="color:#f92672">=</span> cpu.get_a();
+    mmu.set8(cpu.get_bc(), v);
+
+    (<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">1</span>)
+}
+</code></pre></div><p>The template generates also a function with a huge match-pattern block, which will execute an instruction code which corresponds to the given opcode, updating the CPU and memory state.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">decode</span>(code: <span style="color:#66d9ef">u16</span>, arg: <span style="color:#66d9ef">u16</span>, cpu: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Cpu, mmu: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Mmu) -&gt; (<span style="color:#66d9ef">usize</span>, <span style="color:#66d9ef">usize</span>) {
+    trace<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;{:04x}: {:04x}: {}&#34;</span>, cpu.get_pc(), code, mnem(code));
+
+    <span style="color:#66d9ef">match</span> code {
+        <span style="color:#ae81ff">0x0000</span> <span style="color:#f92672">=</span><span style="color:#f92672">&gt;</span> op_0000(arg, cpu, mmu),
+        <span style="color:#ae81ff">0x0001</span> <span style="color:#f92672">=</span><span style="color:#f92672">&gt;</span> op_0001(arg, cpu, mmu),
+        <span style="color:#ae81ff">0x0002</span> <span style="color:#f92672">=</span><span style="color:#f92672">&gt;</span> op_0002(arg, cpu, mmu),
+        <span style="color:#ae81ff">0x0003</span> <span style="color:#f92672">=</span><span style="color:#f92672">&gt;</span> op_0003(arg, cpu, mmu),
+        <span style="color:#ae81ff">0x0004</span> <span style="color:#f92672">=</span><span style="color:#f92672">&gt;</span> op_0004(arg, cpu, mmu),
+        <span style="color:#ae81ff">0x0005</span> <span style="color:#f92672">=</span><span style="color:#f92672">&gt;</span> op_0005(arg, cpu, mmu),
+... <span style="color:#f92672">&lt;</span>about <span style="color:#ae81ff">500</span> lines<span style="color:#f92672">&gt;</span>
+</code></pre></div><p>The generated function will be used in the main loop for emulation. This is the pseudo code.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">loop</span> {
+   <span style="color:#75715e">// Based on the program counter (the register in the CPU), read the opcode from the memory.
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">let</span> opcode <span style="color:#f92672">=</span> fetch_opcode_from_memory(cpu, memory);
+   
+   <span style="color:#e6db74">/// Call the generated function.
+</span><span style="color:#e6db74"></span>   <span style="color:#66d9ef">let</span> size_of_inst <span style="color:#f92672">=</span> decode(opcode, cpu, memory);
+
+   <span style="color:#75715e">// Proceed the program counter.
+</span><span style="color:#75715e"></span>   cpu.program_counter <span style="color:#f92672">+</span><span style="color:#f92672">=</span> size_of_inst;
+}
+</code></pre></div><p>Additionally, helper functions for debugging such as printing mnemonic strings are also generated.</p>
+<h2 id="memory-emulation">Memory emulation</h2>
+<p>The size of memory address space of Gameboy is 16-bits. Different regions of memory play different roles. For example,</p>
+<ul>
+<li>The address between <code>0x0000</code> and <code>0x3fff</code> is read-only (i.e. ROM).</li>
+<li>The address between <code>0xff80</code> and <code>0xfffe</code> is both readable and writable; game programs can use it freely.</li>
+<li>The address between <code>0xff00</code> and <code>0xff7f</code> is I/O registers; writing a value actually sends commands to I/O devices such as GPU.</li>
+</ul>
+<p>Mostly I used <a href="http://bgb.bircd.org/pandocs.htm">this website</a> to know the role of each memory region including individual I/O registers.</p>
+<p>To emulate such memory, I first prepared a byte array whose size is 65536 (16-bit), and wrapped it in a struct <code>Mmu</code> with simple getters/setters to read/write bytes. These getters/setters are expected to be called by the CPU, when instructions access memory.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Mmu</span> {
+    ram: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span>, <span style="color:#75715e">// Initialized to 65536
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">impl</span> Mmu {
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">get8</span>(<span style="color:#f92672">&amp;</span>self, addr: <span style="color:#66d9ef">u16</span>) -&gt; <span style="color:#66d9ef">u8</span>;
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">set8</span>(<span style="color:#f92672">&amp;</span>self, addr: <span style="color:#66d9ef">u16</span>, value: <span style="color:#66d9ef">u8</span>);
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">get16</span>(<span style="color:#f92672">&amp;</span>self, addr: <span style="color:#66d9ef">u16</span>) -&gt; <span style="color:#66d9ef">u16</span>;
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">set16</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, addr: <span style="color:#66d9ef">u16</span>, value: <span style="color:#66d9ef">u16</span>);
+}
+</code></pre></div><p>But, as I mentioned, different memory region has different behaviour. So I also added the feature to add hook functions (<code>MemHandler</code>). The hook functions are called when the CPU attempts to read/write memory via the getters/setters.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> Mmu {
+    <span style="color:#e6db74">/// This function adds a hook function for the memory region `range`
+</span><span style="color:#e6db74"></span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add_handler</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, range: (<span style="color:#66d9ef">u16</span>, <span style="color:#66d9ef">u16</span>), handler: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">Handle</span>
+    <span style="color:#66d9ef">where</span> T: <span style="color:#a6e22e">MemHandler</span> <span style="color:#f92672">+</span> &#39;static;
+}
+
+<span style="color:#75715e">// The following is the definition of MemHandler.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> MemHandler {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">on_read</span>(<span style="color:#f92672">&amp;</span>self, mmu: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Mmu</span>, addr: <span style="color:#66d9ef">u16</span>) -&gt; <span style="color:#a6e22e">MemRead</span>;
+
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">on_write</span>(<span style="color:#f92672">&amp;</span>self, mmu: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Mmu</span>, addr: <span style="color:#66d9ef">u16</span>, value: <span style="color:#66d9ef">u8</span>) -&gt; <span style="color:#a6e22e">MemWrite</span>;
+}
+
+<span style="color:#75715e">// And the return value from on_read/on_write to modify the behaviour of the getters/setters.
+</span><span style="color:#75715e"></span>
+<span style="color:#e6db74">/// This enum controls the return value of the getters.
+</span><span style="color:#e6db74"></span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">MemRead</span> {
+    <span style="color:#e6db74">/// Return this value instead of the value from the underlying byte array.
+</span><span style="color:#e6db74"></span>    Replace(<span style="color:#66d9ef">u8</span>),
+    <span style="color:#e6db74">/// Just return the value from the underlying byte array
+</span><span style="color:#e6db74"></span>    PassThrough,
+}
+
+<span style="color:#e6db74">/// This enum controls the setter behaviour
+</span><span style="color:#e6db74"></span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">MemWrite</span> {
+    <span style="color:#e6db74">/// Write this value to the underlying byte array, instead of the value given to the setter.
+</span><span style="color:#e6db74"></span>    Replace(<span style="color:#66d9ef">u8</span>),
+    <span style="color:#e6db74">/// Just write the same value to the underlying byte array
+</span><span style="color:#e6db74"></span>    PassThrough,
+    <span style="color:#e6db74">/// Don&#39;t touch the underlying byte array
+</span><span style="color:#e6db74"></span>    Block,
+}
+</code></pre></div><p>(The actual code is <a href="https://github.com/YushiOMOTE/gbr/blob/master/core/src/mmu.rs">here</a>)</p>
+<p>When the CPU reads/writes from/to <code>Mmu</code> via the getters/setters, <code>on_read</code> / <code>on_write</code> methods of corresponding <code>MemHandler</code> are called.
+By changing the return value from <code>on_read</code> / <code>on_write</code>, the implementor of <code>MemHandler</code> can control what the getter function actually returns and also what action should be taken on the setter called.</p>
+<p>By using this design, we can easily modify the behaviour of each memory region. The following code is the initialization phase of <code>Mmu</code>, where we can add handlers for corresponding memory regions.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">mmu.add_handler((<span style="color:#ae81ff">0x0000</span>, <span style="color:#ae81ff">0xffff</span>), dbg.handler()); <span style="color:#75715e">// Debugger hooks all entire memory space.
+</span><span style="color:#75715e"></span>mmu.add_handler((<span style="color:#ae81ff">0xc000</span>, <span style="color:#ae81ff">0xdfff</span>), cgb.handler()); <span style="color:#75715e">// Gameboy color logic hooks these regions.
+</span><span style="color:#75715e"></span>mmu.add_handler((<span style="color:#ae81ff">0xff4d</span>, <span style="color:#ae81ff">0xff4d</span>), cgb.handler());
+mmu.add_handler((<span style="color:#ae81ff">0xff56</span>, <span style="color:#ae81ff">0xff56</span>), cgb.handler());
+mmu.add_handler((<span style="color:#ae81ff">0xff70</span>, <span style="color:#ae81ff">0xff70</span>), cgb.handler());
+
+mmu.add_handler((<span style="color:#ae81ff">0x0000</span>, <span style="color:#ae81ff">0x7fff</span>), mbc.handler()); <span style="color:#75715e">// Memory bank controller
+</span><span style="color:#75715e"></span>mmu.add_handler((<span style="color:#ae81ff">0xff50</span>, <span style="color:#ae81ff">0xff50</span>), mbc.handler());
+mmu.add_handler((<span style="color:#ae81ff">0xa000</span>, <span style="color:#ae81ff">0xbfff</span>), mbc.handler());
+mmu.add_handler((<span style="color:#ae81ff">0xff10</span>, <span style="color:#ae81ff">0xff3f</span>), sound.handler()); <span style="color:#75715e">// Sound device
+</span><span style="color:#75715e"></span>
+mmu.add_handler((<span style="color:#ae81ff">0xff46</span>, <span style="color:#ae81ff">0xff46</span>), dma.handler()); <span style="color:#75715e">// DMA controller
+</span><span style="color:#75715e"></span>
+mmu.add_handler((<span style="color:#ae81ff">0x8000</span>, <span style="color:#ae81ff">0x9fff</span>), gpu.handler()); <span style="color:#75715e">// GPU
+</span><span style="color:#75715e"></span>mmu.add_handler((<span style="color:#ae81ff">0xff40</span>, <span style="color:#ae81ff">0xff55</span>), gpu.handler());
+mmu.add_handler((<span style="color:#ae81ff">0xff68</span>, <span style="color:#ae81ff">0xff6b</span>), gpu.handler());
+
+mmu.add_handler((<span style="color:#ae81ff">0xff0f</span>, <span style="color:#ae81ff">0xff0f</span>), ic.handler()); <span style="color:#75715e">// Interrupt controller
+</span><span style="color:#75715e"></span>mmu.add_handler((<span style="color:#ae81ff">0xffff</span>, <span style="color:#ae81ff">0xffff</span>), ic.handler());
+mmu.add_handler((<span style="color:#ae81ff">0xff00</span>, <span style="color:#ae81ff">0xff00</span>), joypad.handler()); <span style="color:#75715e">// Input device
+</span><span style="color:#75715e"></span>mmu.add_handler((<span style="color:#ae81ff">0xff04</span>, <span style="color:#ae81ff">0xff07</span>), timer.handler());  <span style="color:#75715e">// Timer
+</span><span style="color:#75715e"></span>mmu.add_handler((<span style="color:#ae81ff">0xff01</span>, <span style="color:#ae81ff">0xff02</span>), serial.handler()); <span style="color:#75715e">// Serial
+</span></code></pre></div><p>A single memory address can have multiple handlers. If two handlers are added to the same address, the first one is called prior to the second one.
+Then, if the first one returns <code>Replace</code>, the second one is called with the value from <code>Replace</code>. If <code>PassThrough</code>, the second one is called with the original value.
+Note that in the code above,
+the debugger hooks the entire memory space. This is for collecting information for debugging or for stopping programs when certain addresses are written (<code>watchpoint</code>).
+The return value of <code>on_read</code> / <code>on_write</code> of the debugger is normally <code>PassThrough</code>, so all the access just goes to the next handlers.</p>
+<h2 id="io-emulation">I/O emulation</h2>
+<p>The following components need to be emulated. All of them are functional (to some extent) in my emulator.</p>
+<ul>
+<li>GPU</li>
+<li>DMA controller</li>
+<li>Interrupt controller</li>
+<li>Joypad</li>
+<li>Memory bank controller (MBC)</li>
+<li>Serial port</li>
+<li>Timer</li>
+</ul>
+<p>Emulating I/O devices itself is a long story. In this post, I just leave short comments about some components and don't go deeper. I explain about I/O emulation in another post.</p>
+<h3 id="gpu">Gpu</h3>
+<p>The state of the GPU changes depending on the number of cycles since the hardware is powered on. When emulating instructions, I retrieved the number of clock cycles required for each instruction. The number is mainly used for emulating the state of GPU.</p>
+<p>GPU periodically scans certain memory regions to fetch sprites data. The behaviour of GPU is like emulating the behaviour of CRT. It updates the screen pixels line by line. Such GPU behaviour is also emulated.</p>
+<h3 id="sound">Sound</h3>
+<p>I personally think that emulating sounds is most difficult part because it's difficult to say this is the correct sound. I still don't know if my emulator correctly plays sound. But at least, the current implementation sounds good enough to my ears.</p>
+<h3 id="mbc">MBC</h3>
+<p>Memory bank controller (MBC) is not actually the logic in side the gameboy device. It's in the cartridges. This means that different cartridges have different MBC implementation. You can see that in <a href="https://catskull.net/gb-rom-database/">this page</a>.</p>
+<p>In my emulator, I supported the following MBCs:</p>
+<ul>
+<li>MBC1</li>
+<li>MBC2</li>
+<li>MBC3</li>
+<li>MBC4</li>
+<li>MBC5</li>
+<li>HuC1 (WIP)</li>
+</ul>
+<p>In the gameboy, save data is stored to battery backed RAM in cartridges. When such battery backed RAM is accessed, the emulator writes the content to a file.</p>
+<h2 id="debugger">Debugger</h2>
+<p>Debugging is important, especially for complicated emulator like Gameboy.</p>
+<p>My emulator has the debug mode. When the emulator is started in debug mode, we can run some debug commands in command line interface. The following debug commands are supported.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">&gt;&gt; help
+List of available commands:
+   break: Manage break points. <span style="color:#f92672">(</span>short: b<span style="color:#f92672">)</span>
+   watch: Manage memory watches. <span style="color:#f92672">(</span>short: w<span style="color:#f92672">)</span>
+    help: Show the list of commands available. <span style="color:#f92672">(</span>short: h<span style="color:#f92672">)</span>
+    quit: Quit this emulator. 
+    cont: Continue execution. <span style="color:#f92672">(</span>short: c<span style="color:#f92672">)</span>
+    step: Step execution. <span style="color:#f92672">(</span>short: n<span style="color:#f92672">)</span>
+    dump: Dump information. <span style="color:#f92672">(</span>short: d<span style="color:#f92672">)</span>
+</code></pre></div><p>Each command shows <code>help</code> nicely thanks to <a href="https://github.com/TeXitoi/structopt">structopt</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">&gt;&gt; break
+break 0.1.0
+Yushi Omote &lt;yushiomote@gmail.com&gt;
+Manage break points.
+
+USAGE:
+    break &lt;SUBCOMMAND&gt;
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+SUBCOMMANDS:
+    add       Add a break point
+    help      Prints this message or the help of the given subcommand<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>
+    list      List break points
+    remove    Remove a break point
+</code></pre></div><p>You can set break points, execute instructions one by one, dump cpu state and memory.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">&gt;&gt; c
+Continue.
+Break at 0064: 00f0: ld a,<span style="color:#f92672">(</span>0xff00+a8<span style="color:#f92672">)</span>
+&gt;&gt; 
+&gt;&gt; n
+Step.
+Break at 0066: 00fe: cp d8
+&gt;&gt; n
+Step.
+Break at 0068: 0020: jr nz,r8
+&gt;&gt; n
+Step.
+Break at 0064: 00f0: ld a,<span style="color:#f92672">(</span>0xff00+a8<span style="color:#f92672">)</span>
+&gt;&gt; n
+Step.
+Break at 0066: 00fe: cp d8
+&gt;&gt; dump cpu
+a:  <span style="color:#f92672">[</span>07<span style="color:#f92672">]</span>,  b:  <span style="color:#f92672">[</span>01<span style="color:#f92672">]</span>
+c:  <span style="color:#f92672">[</span>02<span style="color:#f92672">]</span>,  d:  <span style="color:#f92672">[</span>04<span style="color:#f92672">]</span>
+e:  <span style="color:#f92672">[</span>02<span style="color:#f92672">]</span>,  f:  <span style="color:#f92672">[</span>50<span style="color:#f92672">]</span>
+h:  <span style="color:#f92672">[</span>60<span style="color:#f92672">]</span>,  l:  <span style="color:#f92672">[</span>0f<span style="color:#f92672">]</span>
+pc: <span style="color:#f92672">[</span>0066<span style="color:#f92672">]</span>
+sp: <span style="color:#f92672">[</span>fffe<span style="color:#f92672">]</span>
+flgs: <span style="color:#f92672">[</span>_n_c<span style="color:#f92672">]</span>
+&gt;&gt; dump mem <span style="color:#ae81ff">0066</span> <span style="color:#ae81ff">00100</span>
+      <span style="color:#ae81ff">0001</span> <span style="color:#ae81ff">0203</span> <span style="color:#ae81ff">0405</span> <span style="color:#ae81ff">0607</span> <span style="color:#ae81ff">0809</span> 0a0b 0c0d 0e0f 
+0060:                fe90 20fa 0d20 f71d 20f2 
+0070: 0e13 247c 1e83 fe62 <span style="color:#ae81ff">2806</span> 1ec1 fe64 <span style="color:#ae81ff">2006</span> 
+0080: 7be2 0c3e 87e2 f042 90e0 <span style="color:#ae81ff">4215</span> 20d2 <span style="color:#ae81ff">0520</span> 
+0090: 4f16 <span style="color:#ae81ff">2018</span> cb4f <span style="color:#ae81ff">0604</span> c5cb <span style="color:#ae81ff">1117</span> c1cb <span style="color:#ae81ff">1117</span> 
+00a0: <span style="color:#ae81ff">0520</span> f522 <span style="color:#ae81ff">2322</span> 23c9 ceed <span style="color:#ae81ff">6666</span> cc0d 000b 
+00b0: <span style="color:#ae81ff">0373</span> <span style="color:#ae81ff">0083</span> 000c 000d <span style="color:#ae81ff">0008</span> 111f <span style="color:#ae81ff">8889</span> 000e 
+00c0: dccc 6ee6 dddd d999 bbbb <span style="color:#ae81ff">6763</span> 6e0e eccc 
+00d0: dddc 999f bbb9 333e 3c42 b9a5 b9a5 423c 
+00e0: <span style="color:#ae81ff">2104</span> <span style="color:#ae81ff">0111</span> a800 1a13 be20 fe23 7dfe <span style="color:#ae81ff">3420</span> 
+00f0: f506 <span style="color:#ae81ff">1978</span> <span style="color:#ae81ff">8623</span> <span style="color:#ae81ff">0520</span> fb86 20fe 3e01 e050 
+0100: <span style="color:#ae81ff">00</span>
+</code></pre></div><h2 id="speed-control">Speed control</h2>
+<p>The CPU of the gameboy is much slower than CPUs of our PCs today, and the game programs was written on the assumption of such slow CPU. Hence, just emulating instructions in a loop at full speed is too fast and can break the assumption. As the result, some motion is the game becomes extremely fast and no longer playable. To avoid that, we need to adjust emulation speed. The following two animations are the demo of Donkey King Land: the first one is emulation at full speed without speed moderation and the second one is with speed moderation.</p>
+<h3 id="without-speed-moderation">Without speed moderation</h3>
+<p><img src="../../assets/gameboy/gameboy-native.gif" alt=""></p>
+<h3 id="with-speed-moderation">With speed moderation</h3>
+<p><img src="../../assets/gameboy/gameboy-moderated.gif" alt=""></p>
+<p>I moderated emulation speed by measuring the current clocks per second and inserting delays. If the current clock frequency is more than the one of the actual gameboy (4.1943 MHz), the emulator increases the delay time.</p>
+<h2 id="nostd">no_std</h2>
+<p>The core part of this emulator is actually <code>no_std</code> library. In Rust, <code>no_std</code> means that the library doesn't depend on any OS-specific functions. So, the library can be easily ported to various platforms including embedded systems, and even to bare-metal (no OS).</p>
+<p>In this project, the gameboy emulator landed on MacBook Pro (no OS). (Sounds and inputs are not yet implemented)</p>
+<p><a href="https://github.com/YushiOMOTE/stickboy"><figure>
+    <img src="../../cards/stickboy.png" width="400px"/> 
+</figure>
+</a></p>
+<p><img src="https://raw.github.com/wiki/YushiOMOTE/stickboy/baremetal.gif" alt="">
+<img src="https://raw.github.com/wiki/YushiOMOTE/stickboy/qemu.gif" alt=""></p>
+<h2 id="pythonista-3">Pythonista 3</h2>
+<p>Before emulating Gameboy in Rust, I also tried in Python on <a href="http://omz-software.com/pythonista/">Pythonista 3</a>, which is the Python development environment on iOS.</p>
+<p><a href="https://github.com/YushiOMOTE/gb"><figure>
+    <img src="../../cards/gb.png" width="400px"/> 
+</figure>
+</a></p>
+<p>I managed to emulate the title logo. But I found emulation in Python was too slow. Even Python (CPython) on PC (not Pythonista) was still slow. According to <a href="https://github.com/Baekalfen/PyBoy">PyBoy</a>, we need to use PyPy instead of CPython to achieve enough performance. Pythonista 3 seems to be based on CPython, and what's more, it's running on iPhone, so I gave up.</p>
+<p>This animation is the emulation on Pythonista 3. The emulator emulates only CPU and GPU, and is running at full speed (No moderation). You can see it's slow.</p>
+<p><img src="../../assets/gameboy/gameboy-pythonista.gif" alt=""></p>
+<h2 id="summary">Summary</h2>
+<ul>
+<li>Writing gameboy emulator in Rust.
+<ul>
+<li>Games are playable with graphics and sounds.</li>
+<li>Code generation for instruction emulation.</li>
+<li>Landed on bare-metal.</li>
+</ul>
+</li>
+</ul>
+</article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="utterances"></div>
+<script src="https://utteranc.es/client.js"
+        repo="yushiomote.org"
+        issue-term="title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+  <div class="footer container-lg width-full p-responsive" role="contentinfo">
+    <div
+        class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+        <ul
+            class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+            <li class="mr-3 mr-lg-0">© 2019. Theme by <a href="https://github.com/MeiK2333/github-style"><span>github-style</span></a></li>
+        </ul>
+
+        <a aria-label="Homepage" title="Yushi Omote" class="footer-octicon d-none d-lg-block mx-lg-4"
+            href="http://yushiomote.org/">
+            <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                </path>
+            </svg>
+        </a>
+        <ul
+            class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+        </ul>
+    </div>
+    <div class="d-flex flex-justify-center pb-6">
+        <span class="f6 text-gray-light"></span>
+    </div>
+</div>
+
+<script crossorigin="anonymous"
+    type="application/javascript" src="http://yushiomote.org/js/frameworks.js"></script>
+
+<script crossorigin="anonymous" async="async"
+    type="application/javascript" src="http://yushiomote.org/js/github-bootstrap.js"></script>
+<script>
+    let classs = ['pinned-item-desc', 'text-gray', 'text-small', 'd-block', 'mt-2', 'mb-3'];
+    const pinned_posts = document.getElementsByName('pinned-post');
+    for (let i = 0; i < pinned_posts.length; i++) {
+        for (let j = 0; j < classs.length; j++) {
+            const ps = pinned_posts[i].getElementsByTagName('p');
+            for (let k = 0; k < ps.length; k++) {
+                ps[k].classList.add(classs[j]);
+            }
+        }
+    }
+    classs = [ 'd-inline-block', 'text-gray', 'mb-2', 'pr-4'];
+    const posts_posts = document.getElementsByName('posts-post');
+    for (let i = 0; i < posts_posts.length; i++) {
+        for (let j = 0; j < classs.length; j++) {
+            const ps = posts_posts[i].getElementsByTagName('p');
+            for (let k = 0; k < ps.length; k++) {
+                ps[k].classList.add(classs[j]);
+            }
+        }
+    }
+</script>
+</body>
+
+</html>

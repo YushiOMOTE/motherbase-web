@@ -1,9 +1,9 @@
 ---
-title: "Chip 8"
+title: "Chip 8 story"
 date: 2019-12-06T11:51:05+09:00
 ---
 
-# Chip-8 story
+## Introduction
 
 This is the article for [the 6th day of qiita advent calendar](https://qiita.com/advent-calendar/2019/giroppon-fintech).
 

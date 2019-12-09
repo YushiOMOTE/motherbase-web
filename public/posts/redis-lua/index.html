@@ -9,7 +9,7 @@
         rel="stylesheet" href="http://yushiomote.org/css/github.css" />
     <meta name="viewport" content="width=device-width">
 
-    <title>Redis Lua - Yushi Omote</title>
+    <title>Compile-time linter for Redis Lua script in Rust - Yushi Omote</title>
 
     <link rel="icon" type="image/x-icon" class="js-site-favicon" href="http://yushiomote.org/images/favicon.ico">
     <meta name="theme-color" content="#1e2327">
@@ -97,7 +97,7 @@ if (!doNotTrack) {
                                     href="http://yushiomote.org/">Yushi Omote</a></span>
                             <span class="path-divider">/</span>
                             <strong itemprop="name" class="css-truncate-target" style="max-width: 410px"><a
-                                    href="http://yushiomote.org/posts/redis-lua/">Redis Lua</a></strong>
+                                    href="http://yushiomote.org/posts/redis-lua/">Compile-time linter for Redis Lua script in Rust</a></strong>
 
                             <div class="d-block text-small text-gray">
                                 Created <time-ago datetime="2019-12-04" class="no-wrap"
@@ -121,16 +121,38 @@ if (!doNotTrack) {
                     <div class="Box mt-3 position-relative">
                         <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
                             <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
-                                2084 Words
+                                2076 Words
                                 
                             </div>
                         </div>
 
                         <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
-                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><h1 id="compiletime-linter-for-redis-lua-script-in-rust">Compile-time linter for Redis Lua script in Rust</h1>
+                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text">
+                                <h1>Compile-time linter for Redis Lua script in Rust</h1><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a>
+      <ul>
+        <li><a href="#lua-scripting-in-redis">Lua scripting in Redis</a></li>
+        <li><a href="#using-redis-lua-in-rust">Using Redis Lua in Rust</a></li>
+      </ul>
+    </li>
+    <li><a href="#redislua">redis-lua</a></li>
+    <li><a href="#how-its-implemented">How it's implemented</a>
+      <ul>
+        <li><a href="#use-linter-in-procmacro">Use linter in proc-macro</a></li>
+        <li><a href="#improving-error-reports">Improving error reports</a></li>
+        <li><a href="#procmacro-limitation">proc-macro limitation</a></li>
+        <li><a href="#safely-passing-arguments">Safely passing arguments</a></li>
+        <li><a href="#generating-reusable-script-object">Generating reusable script object</a></li>
+      </ul>
+    </li>
+    <li><a href="#misc">Misc</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+                                <h2 id="introduction">Introduction</h2>
 <p>This is the article for <a href="https://qiita.com/advent-calendar/2019/giroppon-fintech">the 5th day of qiita advent calendar</a>.</p>
 <p>It's about my WIP hobby project I've just started.</p>
-<h2 id="introduction">Introduction</h2>
 <h3 id="lua-scripting-in-redis">Lua scripting in Redis</h3>
 <p><a href="https://redis.io/">Redis</a> is a well-known high-performance key-value store. One of its interesting feature is <code>Lua</code> scripting.</p>
 <p>Redis has <a href="https://redis.io/commands/eval"><code>eval</code> command</a>. With the command, you can let redis run a <code>Lua</code> script. The following example creates 5 keys by <code>Lua</code> script.</p>

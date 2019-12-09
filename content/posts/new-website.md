@@ -3,7 +3,7 @@ title: "My website as Code"
 date: 2019-12-02T10:14:55+09:00
 ---
 
-# My new website
+## Introduction
 
 This is the article for [the 2nd day of qiita advent calendar](https://qiita.com/advent-calendar/2019/giroppon-fintech).
 
@@ -30,8 +30,6 @@ To achieve the goal, I rely on these four technologies/services to make up my we
 * OS: [Rancher OS](https://rancher.com/rancher-os/) for simplified docker deployment.
 * Infra: [Vultr VPS](https://www.vultr.com/), which is highly customizable and high performance cloud provider.
 * Deployment tool: [Terraform](https://www.terraform.io/) to manage all the infra/OS/app settings as code.
-
-## Quick Introduction
 
 I'll briefly introduce each technology.
 
