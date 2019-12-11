@@ -202,7 +202,7 @@ if (!doNotTrack) {
             <a class="UnderlineNav-item mr-0 mr-md-1 mr-lg-3 selected" href="http://yushiomote.org/posts/">
                 Posts
                 <span class="Counter hide-lg hide-md hide-sm">
-                    4
+                    5
                 </span>
             </a>
             <a class="UnderlineNav-item mr-0 mr-md-1 mr-lg-3 " href="http://yushiomote.org/about/">
@@ -219,12 +219,37 @@ if (!doNotTrack) {
                     <div class="col-12 col-lg-12 d-inline-block">
                         <div class="d-inline-block mb-1">
                             <h3>
-                                <a href="http://yushiomote.org/posts/chip-8/">Chip 8</a>
+                                <a href="http://yushiomote.org/posts/gameboy-emu/">Writing gameboy emulator in Rust</a>
                             </h3>
                         </div>
 
                         <div name="posts-post">
-                            Chip-8 story This is the article for the 6th day of qiita advent calendar.
+                            Introduction This is the article for the 8th day of qiita advent calendar.
+I'm writing gameboy emulator in Rust.
+  
+I've confirmed some major titles are playable.
+ Kirby's Dream Land Super Mario Land Dr. Mario Donkey Kong Land Tetris Pokemon Red/Green The Legend of Zelda Mega Man &hellip;      In this post, I'm going to describe some internals of the emulator.
+Instruction emulation CPU specification The CPU of the gameboy is LR35902, it's a hybrid of Zilog Z80 and Intel 8080.
+                        </div>
+
+                        <div class="f6 text-gray mt-2">
+                            Updated <relative-time datetime="2019-12-09" class="no-wrap"
+                                title="Modifyd at 2019/12/09">
+                                December 9, 2019</relative-time>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="col-12 d-flex width-full py-4 border-bottom public fork">
+                    <div class="col-12 col-lg-12 d-inline-block">
+                        <div class="d-inline-block mb-1">
+                            <h3>
+                                <a href="http://yushiomote.org/posts/chip-8/">Chip 8 story</a>
+                            </h3>
+                        </div>
+
+                        <div name="posts-post">
+                            Introduction This is the article for the 6th day of qiita advent calendar.
 Here I introduce how I played with Chip-8 these days.
 What's Chip-8? Chip-8 is an interpreted programming language, which was used on some old computer systems. Mostly video games were run on them.
 (from: https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Space_intercept.png/440px-Space_intercept.png)
@@ -243,15 +268,16 @@ Emulating Chip-8 execution environment is really easy; it basically needs only 3
                     <div class="col-12 col-lg-12 d-inline-block">
                         <div class="d-inline-block mb-1">
                             <h3>
-                                <a href="http://yushiomote.org/posts/redis-lua/">Redis Lua</a>
+                                <a href="http://yushiomote.org/posts/redis-lua/">Compile-time linter for Redis Lua script in Rust</a>
                             </h3>
                         </div>
 
                         <div name="posts-post">
-                            Compile-time linter for Redis Lua script in Rust This is the article for the 5th day of qiita advent calendar.
+                            Introduction This is the article for the 5th day of qiita advent calendar.
 It's about my WIP hobby project I've just started.
-Introduction Lua scripting in Redis Redis is a well-known high-performance key-value store. One of its interesting feature is Lua scripting.
+Lua scripting in Redis Redis is a well-known high-performance key-value store. One of its interesting feature is Lua scripting.
 Redis has eval command. With the command, you can let redis run a Lua script. The following example creates 5 keys by Lua script.
+$ redis-cli &gt; eval &#39;for i=1,5 do redis.
                         </div>
 
                         <div class="f6 text-gray mt-2">
@@ -271,7 +297,7 @@ Redis has eval command. With the command, you can let redis run a Lua script. Th
                         </div>
 
                         <div name="posts-post">
-                            My new website This is the article for the 2nd day of qiita advent calendar.
+                            Introduction This is the article for the 2nd day of qiita advent calendar.
 Hi, this is my new personal website!
 My old website is still alive here (http://old.yushiomote.org), but I plan to remove it in the near future.
 It's been a while since I wrote my last article. I even haven't logged in my old personal server for a long time. I forgot almost all the settings in my old personal server.

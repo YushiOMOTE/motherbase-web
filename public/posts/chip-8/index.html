@@ -9,7 +9,7 @@
         rel="stylesheet" href="http://yushiomote.org/css/github.css" />
     <meta name="viewport" content="width=device-width">
 
-    <title>Chip 8 - Yushi Omote</title>
+    <title>Chip 8 story - Yushi Omote</title>
 
     <link rel="icon" type="image/x-icon" class="js-site-favicon" href="http://yushiomote.org/images/favicon.ico">
     <meta name="theme-color" content="#1e2327">
@@ -97,7 +97,7 @@ if (!doNotTrack) {
                                     href="http://yushiomote.org/">Yushi Omote</a></span>
                             <span class="path-divider">/</span>
                             <strong itemprop="name" class="css-truncate-target" style="max-width: 410px"><a
-                                    href="http://yushiomote.org/posts/chip-8/">Chip 8</a></strong>
+                                    href="http://yushiomote.org/posts/chip-8/">Chip 8 story</a></strong>
 
                             <div class="d-block text-small text-gray">
                                 Created <time-ago datetime="2019-12-06" class="no-wrap"
@@ -121,13 +121,38 @@ if (!doNotTrack) {
                     <div class="Box mt-3 position-relative">
                         <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
                             <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
-                                786 Words
+                                785 Words
                                 
                             </div>
                         </div>
 
                         <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
-                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><h1 id="chip8-story">Chip-8 story</h1>
+                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text">
+                                <h1>Chip 8 story</h1><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#whats-chip8">What's Chip-8?</a></li>
+    <li><a href="#chip8-in-pythonista-on-ios">Chip-8 in Pythonista on iOS</a>
+      <ul>
+        <li><a href="#configuration">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#chip8-in-rust">Chip-8 in Rust</a>
+      <ul>
+        <li><a href="#nostd">no_std</a></li>
+        <li><a href="#the-interface">The interface</a></li>
+      </ul>
+    </li>
+    <li><a href="#chip8-landed-on-baremetal">Chip-8 landed on bare-metal</a>
+      <ul>
+        <li><a href="#uefi-macbook-pro">UEFI (Macbook Pro)</a></li>
+        <li><a href="#bios">BIOS</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+                                <h2 id="introduction">Introduction</h2>
 <p>This is the article for <a href="https://qiita.com/advent-calendar/2019/giroppon-fintech">the 6th day of qiita advent calendar</a>.</p>
 <p>Here I introduce how I played with Chip-8 these days.</p>
 <h2 id="whats-chip8">What's Chip-8?</h2>

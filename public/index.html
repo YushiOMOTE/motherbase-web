@@ -200,7 +200,7 @@ if (!doNotTrack) {
             <a class="UnderlineNav-item mr-0 mr-md-1 mr-lg-3 " href="http://yushiomote.org/posts/">
                 Posts
                 <span class="Counter hide-lg hide-md hide-sm">
-                    4
+                    5
                 </span>
             </a>
             <a class="UnderlineNav-item mr-0 mr-md-1 mr-lg-3 " href="http://yushiomote.org/about/">
@@ -227,11 +227,40 @@ if (!doNotTrack) {
                                         <path fill-rule="evenodd"
                                             d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z" />
                                     </svg>
-                                    <a href="http://yushiomote.org/posts/chip-8/" class="text-bold flex-auto min-width-0 ">
-                                        <span class="repo js-pinnable-item" title="Chip 8">Chip 8</span>
+                                    <a href="http://yushiomote.org/posts/gameboy-emu/" class="text-bold flex-auto min-width-0 ">
+                                        <span class="repo js-pinnable-item" title="Writing gameboy emulator in Rust">Writing gameboy emulator in Rust</span>
                                     </a>
                                 </div>
-                                Chip-8 story This is the article for the 6th day of qiita advent calendar.
+                                Introduction This is the article for the 8th day of qiita advent calendar.
+I'm writing gameboy emulator in Rust.
+  
+I've confirmed some major titles are playable.
+ Kirby's Dream Land Super Mario Land Dr. Mario Donkey Kong Land Tetris Pokemon Red/Green The Legend of Zelda Mega Man &hellip;      In this post, I'm going to describe some internals of the emulator.
+Instruction emulation CPU specification The CPU of the gameboy is LR35902, it's a hybrid of Zilog Z80 and Intel 8080.
+                                <div class="f6 text-gray mt-2">
+                                    Updated <relative-time datetime="2019-12-09"
+                                        class="no-wrap" title="Modify at 2019/12/09">
+                                        December 9, 2019</relative-time>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch">
+                        <div
+                            class="Box pinned-item-list-item d-flex p-3 width-full js-pinned-item-list-item public source  sortable-button-item">
+                            <div class="pinned-item-list-item-content" name="pinned-post">
+                                <div class="d-flex width-full flex-items-center position-relative">
+                                    <svg class="octicon octicon-repo mr-2 text-gray flex-shrink-0" viewBox="0 0 12 16"
+                                        version="1.1" width="12" height="16" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z" />
+                                    </svg>
+                                    <a href="http://yushiomote.org/posts/chip-8/" class="text-bold flex-auto min-width-0 ">
+                                        <span class="repo js-pinnable-item" title="Chip 8 story">Chip 8 story</span>
+                                    </a>
+                                </div>
+                                Introduction This is the article for the 6th day of qiita advent calendar.
 Here I introduce how I played with Chip-8 these days.
 What's Chip-8? Chip-8 is an interpreted programming language, which was used on some old computer systems. Mostly video games were run on them.
 (from: https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Space_intercept.png/440px-Space_intercept.png)
@@ -256,13 +285,14 @@ Emulating Chip-8 execution environment is really easy; it basically needs only 3
                                             d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z" />
                                     </svg>
                                     <a href="http://yushiomote.org/posts/redis-lua/" class="text-bold flex-auto min-width-0 ">
-                                        <span class="repo js-pinnable-item" title="Redis Lua">Redis Lua</span>
+                                        <span class="repo js-pinnable-item" title="Compile-time linter for Redis Lua script in Rust">Compile-time linter for Redis Lua script in Rust</span>
                                     </a>
                                 </div>
-                                Compile-time linter for Redis Lua script in Rust This is the article for the 5th day of qiita advent calendar.
+                                Introduction This is the article for the 5th day of qiita advent calendar.
 It's about my WIP hobby project I've just started.
-Introduction Lua scripting in Redis Redis is a well-known high-performance key-value store. One of its interesting feature is Lua scripting.
+Lua scripting in Redis Redis is a well-known high-performance key-value store. One of its interesting feature is Lua scripting.
 Redis has eval command. With the command, you can let redis run a Lua script. The following example creates 5 keys by Lua script.
+$ redis-cli &gt; eval &#39;for i=1,5 do redis.
                                 <div class="f6 text-gray mt-2">
                                     Updated <relative-time datetime="2019-12-04"
                                         class="no-wrap" title="Modify at 2019/12/04">
@@ -286,7 +316,7 @@ Redis has eval command. With the command, you can let redis run a Lua script. Th
                                         <span class="repo js-pinnable-item" title="My website as Code">My website as Code</span>
                                     </a>
                                 </div>
-                                My new website This is the article for the 2nd day of qiita advent calendar.
+                                Introduction This is the article for the 2nd day of qiita advent calendar.
 Hi, this is my new personal website!
 My old website is still alive here (http://old.yushiomote.org), but I plan to remove it in the near future.
 It's been a while since I wrote my last article. I even haven't logged in my old personal server for a long time. I forgot almost all the settings in my old personal server.

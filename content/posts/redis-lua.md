@@ -1,16 +1,14 @@
 ---
-title: "Redis Lua"
+title: "Compile-time linter for Redis Lua script in Rust"
 date: 2019-12-04T11:52:25+09:00
 draft: false
 ---
 
-# Compile-time linter for Redis Lua script in Rust
+## Introduction
 
 This is the article for [the 5th day of qiita advent calendar](https://qiita.com/advent-calendar/2019/giroppon-fintech).
 
 It's about my WIP hobby project I've just started.
-
-## Introduction
 
 ### Lua scripting in Redis
 

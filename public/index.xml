@@ -6,18 +6,32 @@
     <description>Recent content on Yushi Omote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 06 Dec 2019 11:51:05 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 09 Dec 2019 14:04:16 +0900</lastBuildDate>
     
 	<atom:link href="http://yushiomote.org/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Chip 8</title>
+      <title>Writing gameboy emulator in Rust</title>
+      <link>http://yushiomote.org/posts/gameboy-emu/</link>
+      <pubDate>Mon, 09 Dec 2019 14:04:16 +0900</pubDate>
+      
+      <guid>http://yushiomote.org/posts/gameboy-emu/</guid>
+      <description>Introduction This is the article for the 8th day of qiita advent calendar.
+I&#39;m writing gameboy emulator in Rust.
+  
+I&#39;ve confirmed some major titles are playable.
+ Kirby&#39;s Dream Land Super Mario Land Dr. Mario Donkey Kong Land Tetris Pokemon Red/Green The Legend of Zelda Mega Man &amp;hellip;      In this post, I&#39;m going to describe some internals of the emulator.
+Instruction emulation CPU specification The CPU of the gameboy is LR35902, it&#39;s a hybrid of Zilog Z80 and Intel 8080.</description>
+    </item>
+    
+    <item>
+      <title>Chip 8 story</title>
       <link>http://yushiomote.org/posts/chip-8/</link>
       <pubDate>Fri, 06 Dec 2019 11:51:05 +0900</pubDate>
       
       <guid>http://yushiomote.org/posts/chip-8/</guid>
-      <description>Chip-8 story This is the article for the 6th day of qiita advent calendar.
+      <description>Introduction This is the article for the 6th day of qiita advent calendar.
 Here I introduce how I played with Chip-8 these days.
 What&#39;s Chip-8? Chip-8 is an interpreted programming language, which was used on some old computer systems. Mostly video games were run on them.
 (from: https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Space_intercept.png/440px-Space_intercept.png)
@@ -25,15 +39,16 @@ Emulating Chip-8 execution environment is really easy; it basically needs only 3
     </item>
     
     <item>
-      <title>Redis Lua</title>
+      <title>Compile-time linter for Redis Lua script in Rust</title>
       <link>http://yushiomote.org/posts/redis-lua/</link>
       <pubDate>Wed, 04 Dec 2019 11:52:25 +0900</pubDate>
       
       <guid>http://yushiomote.org/posts/redis-lua/</guid>
-      <description>Compile-time linter for Redis Lua script in Rust This is the article for the 5th day of qiita advent calendar.
+      <description>Introduction This is the article for the 5th day of qiita advent calendar.
 It&#39;s about my WIP hobby project I&#39;ve just started.
-Introduction Lua scripting in Redis Redis is a well-known high-performance key-value store. One of its interesting feature is Lua scripting.
-Redis has eval command. With the command, you can let redis run a Lua script. The following example creates 5 keys by Lua script.</description>
+Lua scripting in Redis Redis is a well-known high-performance key-value store. One of its interesting feature is Lua scripting.
+Redis has eval command. With the command, you can let redis run a Lua script. The following example creates 5 keys by Lua script.
+$ redis-cli &amp;gt; eval &amp;#39;for i=1,5 do redis.</description>
     </item>
     
     <item>
@@ -42,7 +57,7 @@ Redis has eval command. With the command, you can let redis run a Lua script. Th
       <pubDate>Mon, 02 Dec 2019 10:14:55 +0900</pubDate>
       
       <guid>http://yushiomote.org/posts/new-website/</guid>
-      <description>My new website This is the article for the 2nd day of qiita advent calendar.
+      <description>Introduction This is the article for the 2nd day of qiita advent calendar.
 Hi, this is my new personal website!
 My old website is still alive here (http://old.yushiomote.org), but I plan to remove it in the near future.
 It&#39;s been a while since I wrote my last article. I even haven&#39;t logged in my old personal server for a long time. I forgot almost all the settings in my old personal server.</description>

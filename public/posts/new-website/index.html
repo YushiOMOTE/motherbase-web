@@ -121,13 +121,34 @@ if (!doNotTrack) {
                     <div class="Box mt-3 position-relative">
                         <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
                             <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
-                                1664 Words
+                                1660 Words
                                 
                             </div>
                         </div>
 
                         <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
-                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><h1 id="my-new-website">My new website</h1>
+                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text">
+                                <h1>My website as Code</h1><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#goal">Goal</a></li>
+    <li><a href="#technologies">Technologies</a>
+      <ul>
+        <li><a href="#hugo">Hugo</a></li>
+        <li><a href="#rancher-os">Rancher OS</a></li>
+        <li><a href="#vultr-vps">Vultr VPS</a></li>
+        <li><a href="#terraform">Terraform</a></li>
+      </ul>
+    </li>
+    <li><a href="#lets-start">Let's start</a>
+      <ul>
+        <li><a href="#serveros-deployment">Server/OS deployment</a></li>
+        <li><a href="#containers-deployment">Containers deployment</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                                <h2 id="introduction">Introduction</h2>
 <p>This is the article for <a href="https://qiita.com/advent-calendar/2019/giroppon-fintech">the 2nd day of qiita advent calendar</a>.</p>
 <p>Hi, this is my new personal website!</p>
 <p>My old website is still alive here (<a href="http://old.yushiomote.org">http://old.yushiomote.org</a>), but I plan to remove it in the near future.</p>
@@ -146,7 +167,6 @@ My goal is therefore to manage everything by using git (github); everything incl
 <li>Infra: <a href="https://www.vultr.com/">Vultr VPS</a>, which is highly customizable and high performance cloud provider.</li>
 <li>Deployment tool: <a href="https://www.terraform.io/">Terraform</a> to manage all the infra/OS/app settings as code.</li>
 </ul>
-<h2 id="quick-introduction">Quick Introduction</h2>
 <p>I'll briefly introduce each technology.</p>
 <h3 id="hugo">Hugo</h3>
 <p>Hugo is a static website generator written in <code>Go</code>. We write blog posts in markdown. Then, hugo generates all the necessary html files from them, which is a complete website that we can just publish via something like <code>nginx</code>. So, we can just manage markdown files by using git.</p>
