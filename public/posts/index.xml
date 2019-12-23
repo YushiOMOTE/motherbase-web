@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Yushi Omote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Dec 2019 14:04:16 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 22 Dec 2019 08:33:23 +0900</lastBuildDate>
     
 	<atom:link href="http://yushiomote.org/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How to write x86 bare-metal hello world in Rust</title>
+      <link>http://yushiomote.org/posts/baremetal/</link>
+      <pubDate>Sun, 22 Dec 2019 08:33:23 +0900</pubDate>
+      
+      <guid>http://yushiomote.org/posts/baremetal/</guid>
+      <description>This is the article for the 15th day of qiita advent calendar.
+In this post, I&#39;m going to show you how to write a bare-metal hello-world in Rust (x86). By bare-metal hello-world, I mean the hello-world program which doesn&#39;t require any OS and starts directly on your PC from a hard disk or an USB flash drive.
+Write a simple no_std program This is a typical hello-world program in Rust.</description>
+    </item>
     
     <item>
       <title>Writing gameboy emulator in Rust</title>

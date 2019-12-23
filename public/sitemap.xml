@@ -3,17 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://yushiomote.org/posts/</loc>
-    <lastmod>2019-12-09T14:04:16+09:00</lastmod>
+    <loc>http://yushiomote.org/posts/baremetal/</loc>
+    <lastmod>2019-12-22T08:33:23+09:00</lastmod>
   </url>
   
   <url>
-    <loc>http://yushiomote.org/posts/gameboy-emu/</loc>
-    <lastmod>2019-12-09T14:04:16+09:00</lastmod>
+    <loc>http://yushiomote.org/posts/</loc>
+    <lastmod>2019-12-22T08:33:23+09:00</lastmod>
   </url>
   
   <url>
     <loc>http://yushiomote.org/</loc>
+    <lastmod>2019-12-22T08:33:23+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://yushiomote.org/posts/gameboy-emu/</loc>
     <lastmod>2019-12-09T14:04:16+09:00</lastmod>
   </url>
   

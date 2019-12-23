@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <link crossorigin="anonymous" media="all"
+        rel="stylesheet"
+        href="http://yushiomote.org/css/frameworks.css" />
+    <link crossorigin="anonymous" media="all"
+        rel="stylesheet" href="http://yushiomote.org/css/github.css" />
+    <meta name="viewport" content="width=device-width">
+
+    <title>How to write x86 bare-metal hello world in Rust - Yushi Omote</title>
+
+    <link rel="icon" type="image/x-icon" class="js-site-favicon" href="http://yushiomote.org/images/favicon.ico">
+    <meta name="theme-color" content="#1e2327">
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-33715721-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+
+<body class="env-production emoji-size-boost page-responsive page-profile">
+  <div class="position-relative js-header-wrapper ">
+    <span class="Progress progress-pjax-loader position-fixed width-full js-pjax-loader-bar">
+        <span class="progress-pjax-loader-bar top-0 left-0" style="width: 0%;"></span>
+    </span>
+    <header class="Header js-details-container Details flex-wrap flex-lg-nowrap p-responsive" role="banner">
+        <div class="Header-item d-none d-lg-flex">
+            <a class="Header-link" href="http://yushiomote.org/" aria-label="Homepage"
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+                    width="32" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </div>
+        <div
+            class="Header-item Header-item--full flex-column flex-lg-row width-full flex-order-2 flex-lg-order-none mr-0 mr-lg-3 mt-3 mt-lg-0 Details-content--hidden">
+            <div class="header-search flex-self-stretch flex-lg-self-auto mr-0 mr-lg-3 mb-3 mb-lg-0 scoped-search site-scoped-search js-site-search position-relative js-jump-to"
+                role="combobox" aria-owns="jump-to-results" aria-label="Search or jump to" aria-haspopup="listbox"
+                aria-expanded="false">
+                <div class="position-relative">
+                </div>
+            </div>
+        </div>
+        <div class="Header-item Header-item--full flex-justify-center d-lg-none position-relative" style="margin-right: auto;">
+            <a class="Header-link" href="http://yushiomote.org/" aria-label="Homepage"
+                data-ga-click="Header, go to dashboard, icon:logo">
+                <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+                    width="32" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                </svg>
+            </a>
+        </div>
+        <div class="Header-item position-relative mr-0 d-none d-lg-flex">
+            <details class="details-overlay details-reset">
+                <summary class="Header-link" aria-label="View profile and more"
+                    data-ga-click="Header, show menu, icon:avatar">
+                    
+                    <img alt="" class="avatar" src="http://yushiomote.org/images/avatar.gif" height="20" width="20">
+                    
+                </summary>
+            </details>
+        </div>
+    </header>
+</div>
+
+<div id="start-of-content" class="show-on-focus"></div>
+<div id="js-flash-container">
+</div>
+
+  
+<div class="application-main " data-commit-hovercards-enabled="">
+    <div itemscope="" itemtype="http://schema.org/SoftwareSourceCode" class="">
+        <main id="js-repo-pjax-container" data-pjax-container="">
+            <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav pt-0 pt-lg-4 ">
+                <div class="repohead-details-container clearfix container-lg p-responsive d-none d-lg-block">
+                    <div class="mb-3 d-flex">
+                        <h1 class="public css-truncate float-none flex-auto width-fit pl-0">
+                            <a class="avatar mr-1" href="http://yushiomote.org/about/">
+                            
+                                <img
+                                    src="http://yushiomote.org/images/avatar.gif" width="26" height="26">
+                            
+                            </a>
+                            <span class="author"><a
+                                    href="http://yushiomote.org/">Yushi Omote</a></span>
+                            <span class="path-divider">/</span>
+                            <strong itemprop="name" class="css-truncate-target" style="max-width: 410px"><a
+                                    href="http://yushiomote.org/posts/baremetal/">How to write x86 bare-metal hello world in Rust</a></strong>
+
+                            <div class="d-block text-small text-gray">
+                                Created <time-ago datetime="2019-12-22" class="no-wrap"
+                                    title="Created at 2019/12/22">
+                                    2019-12-22</time-ago>
+                                <span class="file-info-divider"></span>
+                                Modifyd <time-ago datetime="2019-12-22" class="no-wrap"
+                                    title="Modifyd at 2019/12/22">
+                                    2019-12-22</time-ago>
+                            </div>
+                        </h1>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="container-lg clearfix new-discussion-timeline experiment-repo-nav  p-responsive">
+                <div class="repository-content ">
+                    <div class="Box mt-3 position-relative">
+                        <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
+                            <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                                1345 Words
+                                
+                            </div>
+                        </div>
+
+                        <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
+                            <article class="markdown-body entry-content p-3 p-md-6" itemprop="text">
+                                <h1>How to write x86 bare-metal hello world in Rust</h1><nav id="TableOfContents">
+  <ul>
+    <li><a href="#write-a-simple-nostd-program">Write a simple no_std program</a></li>
+    <li><a href="#crosscompiling">Cross-compiling</a></li>
+    <li><a href="#bootloader">Bootloader</a></li>
+    <li><a href="#write-an-entry-point">Write an entry point</a></li>
+    <li><a href="#run-it">Run it</a></li>
+    <li><a href="#print-hello-world">Print hello world</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+                                <p>This is the article for <a href="https://qiita.com/advent-calendar/2019/giroppon-fintech">the 15th day of qiita advent calendar</a>.</p>
+<p>In this post, I'm going to show you how to write a bare-metal hello-world in Rust (x86). By bare-metal hello-world, I mean the hello-world program which doesn't require any OS and starts directly on your PC from a hard disk or an USB flash drive.</p>
+<h2 id="write-a-simple-nostd-program">Write a simple <code>no_std</code> program</h2>
+<p>This is a typical hello-world program in Rust.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello world&#34;</span>);
+}
+</code></pre></div><p>When you compile this simple program by <code>cargo build</code>, the resulting executable already depends on a lot of components and libraries specific to your OS. In the first place, the program expects your OS to initialize resources and call <code>main()</code> function. The program relies on <code>println!()</code>, which calls system calls to show the characters in your display.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cargo build --release
+
+<span style="color:#75715e"># The executable has a lot of dependencies</span>
+$ ldd target/release/helloworld
+	linux-vdso.so.1 <span style="color:#f92672">=</span>&gt;  <span style="color:#f92672">(</span>0x00007fffee514000<span style="color:#f92672">)</span>
+	libdl.so.2 <span style="color:#f92672">=</span>&gt; /lib64/libdl.so.2 <span style="color:#f92672">(</span>0x00007f3848907000<span style="color:#f92672">)</span>
+	librt.so.1 <span style="color:#f92672">=</span>&gt; /lib64/librt.so.1 <span style="color:#f92672">(</span>0x00007f38486ff000<span style="color:#f92672">)</span>
+	libpthread.so.0 <span style="color:#f92672">=</span>&gt; /lib64/libpthread.so.0 <span style="color:#f92672">(</span>0x00007f38484e3000<span style="color:#f92672">)</span>
+	libgcc_s.so.1 <span style="color:#f92672">=</span>&gt; /lib64/libgcc_s.so.1 <span style="color:#f92672">(</span>0x00007f38482cd000<span style="color:#f92672">)</span>
+	libc.so.6 <span style="color:#f92672">=</span>&gt; /lib64/libc.so.6 <span style="color:#f92672">(</span>0x00007f3847f00000<span style="color:#f92672">)</span>
+	/lib64/ld-linux-x86-64.so.2 <span style="color:#f92672">(</span>0x00007f3848d41000<span style="color:#f92672">)</span>
+</code></pre></div><p>A bare-metal program should not depend on anything because it needs to run without OS. Therefore, to write a bare-metal program, we need to tell the compiler to avoid depending on such OS-specific components. To do so, you can use <code>no_std</code> feature of the Rust compiler. Let's write a simple program which uses <code>no_std</code>.</p>
+<ol>
+<li>Create a Rust project.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cargo new --bin helloworld
+</code></pre></div><ol start="2">
+<li>Then, replace the content of <code>main.rs</code> with this code.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#![</span><span style="color:#75715e">no_std</span><span style="color:#75715e">]</span>
+<span style="color:#75715e">#![</span><span style="color:#75715e">no_main</span><span style="color:#75715e">]</span>
+
+<span style="color:#75715e">#[</span><span style="color:#75715e">panic_handler</span><span style="color:#75715e">]</span>
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">panic</span>(__info: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">core</span>::panic::PanicInfo) -&gt; <span style="color:#f92672">!</span> {
+    <span style="color:#66d9ef">loop</span> {}
+}
+</code></pre></div><p><code>#![no_std]</code> is to enable <code>no_std</code> feature. With this feature, we can tell the Rust compiler not to include any OS-specific dependencies. At this point, we cannot use <code>println!()</code> anymore because it relies on system calls.</p>
+<p><code>#![no_main]</code> is to tell the Rust compiler not to have extra logic to start from <code>main()</code>. By default, the Rust compiler inserts a piece of code for <code>libc</code> to call <code>main()</code> function. To write a bare-metal program, we don't assume <code>libc</code>, we therefore disable <code>main()</code>.</p>
+<p>Once you enable <code>no_std</code> feature, you are required to implement <code>panic handler</code>, which defines what to do when a program goes <code>panic</code>. The definition of <code>panic handler</code> starts with the attribute <code>#[panic_handler]</code> in the code above.</p>
+<p>Without <code>no_std</code>, the Rust compiler automatically inserts <code>panic handler</code>, which heavily depends on OS-specific features. Therefore, with <code>no_std</code>, the compiler no longer can insert <code>panic handler</code>. We instead need to implement it by ourselves. In this example, we just do nothing.</p>
+<h2 id="crosscompiling">Cross-compiling</h2>
+<p>You can see that <code>cargo build</code> no longer can compile the program above. This is because <code>cargo build</code> by default tries to compile the program for your local environment (on your OS). However, the <code>no_std</code> program is too minimal. It eliminates all the shim for the program to run on your OS.</p>
+<p>What we need to do next is cross-compiling. Let's compile it for bare-metal environment instead of your local environment. Luciky there's a nice cross-compiler as a cargo subcommand, <a href=""><code>cargo xbuild</code></a>. First, let's install it.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cargo install cargo-xbuild
+</code></pre></div><p>Then, let's configure it so that the cross-compiler targets to bare-metal. Save this json as the file <code>helloworld.json</code> in the top directory of the project.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;llvm-target&#34;</span>: <span style="color:#e6db74">&#34;x86_64-unknown-none&#34;</span>,
+    <span style="color:#f92672">&#34;data-layout&#34;</span>: <span style="color:#e6db74">&#34;e-m:e-i64:64-f80:128-n8:16:32:64-S128&#34;</span>,
+    <span style="color:#f92672">&#34;arch&#34;</span>: <span style="color:#e6db74">&#34;x86_64&#34;</span>,
+    <span style="color:#f92672">&#34;target-endian&#34;</span>: <span style="color:#e6db74">&#34;little&#34;</span>,
+    <span style="color:#f92672">&#34;target-pointer-width&#34;</span>: <span style="color:#e6db74">&#34;64&#34;</span>,
+    <span style="color:#f92672">&#34;target-c-int-width&#34;</span>: <span style="color:#e6db74">&#34;32&#34;</span>,
+    <span style="color:#f92672">&#34;os&#34;</span>: <span style="color:#e6db74">&#34;none&#34;</span>,
+    <span style="color:#f92672">&#34;executables&#34;</span>: <span style="color:#66d9ef">true</span>,
+    <span style="color:#f92672">&#34;linker-flavor&#34;</span>: <span style="color:#e6db74">&#34;ld.lld&#34;</span>,
+    <span style="color:#f92672">&#34;linker&#34;</span>: <span style="color:#e6db74">&#34;rust-lld&#34;</span>,
+    <span style="color:#f92672">&#34;panic-strategy&#34;</span>: <span style="color:#e6db74">&#34;abort&#34;</span>,
+    <span style="color:#f92672">&#34;disable-redzone&#34;</span>: <span style="color:#66d9ef">true</span>,
+    <span style="color:#f92672">&#34;features&#34;</span>: <span style="color:#e6db74">&#34;-mmx,-sse,+soft-float&#34;</span>
+}
+</code></pre></div><p>Then, run.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cargo xbuild --release --target helloworld.json
+</code></pre></div><p>Now the program compiles. You will get the binary under the directory <code>./target/helloworld/release/helloworld</code>.</p>
+<h2 id="bootloader">Bootloader</h2>
+<p>Ok, let's run the program on bare-metal. However, we no longer rely on an OS, which means we need to initialize the hardware resources by ourselves. This is a pretty hard job without some knowledge around the early boot stage.
+Fortunately, in Rust ecosystem, there's a crate which does the job for you, <a href=""><code>bootloader</code></a>.</p>
+<p>Clone it in the top directory of the project.</p>
+<pre><code>$ git clone https://github.com/rust-osdev/bootloader.git
+</code></pre><p>Currently, your project should be like this.</p>
+<pre><code>.
+├── bootloader ... `bootloader` which you've cloned right now.
+├── Cargo.lock
+├── Cargo.toml
+├── helloworld.json
+└── src
+    └── main.rs
+</code></pre><p>Then, compile <code>bootloader</code> specifying your <code>helloworld</code> as kernel.</p>
+<pre><code># Go into `bootloader` directory
+$ cd bootloader
+
+# Compile it with some environment variables set.
+$ KERNEL=../target/helloworld/release/helloworld KERNEL_MANIFEST=../Cargo.toml cargo xbuild --release --features binary
+</code></pre><p>When you compile <code>bootloader</code>, set the two environment variables as follows.</p>
+<ul>
+<li><code>KERNEL</code> is the path to your <code>no_std</code> program binary.</li>
+<li><code>KERNEL_MANIFEST</code> is the path to the <code>Cargo.toml</code> of your project.</li>
+</ul>
+<p>At this time, you'll see this error. This is expected.</p>
+<pre><code>error: failed to run custom build command for `bootloader v0.8.3 (./dev/helloworlds/helloworld/bootloader)`
+
+Caused by:
+  process didn't exit successfully: `./dev/helloworlds/helloworld/bootloader/target/release/build/bootloader-bcef2fb59a03f870/build-script-build` (exit code: 101)
+--- stderr
+thread 'main' panicked at 'Kernel executable has an empty text section. Perhaps the entry point was set incorrectly?
+
+Kernel executable at `../target/helloworld/release/helloworld`
+', build.rs:163:9
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
+</code></pre><p>The point is <code>executable has an empty text section</code>. After hardware initialization, <code>bootloader</code> tries to call <code>_start()</code> of your <code>no_std</code> program. However, we didn't write such function.</p>
+<h2 id="write-an-entry-point">Write an entry point</h2>
+<p>Let's define <code>_start()</code> in your <code>no_std</code> program. This is the entry point of your program that <code>bootloader</code> is supposed to call.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#![</span><span style="color:#75715e">no_std</span><span style="color:#75715e">]</span>
+<span style="color:#75715e">#![</span><span style="color:#75715e">no_main</span><span style="color:#75715e">]</span>
+
+<span style="color:#75715e">#[</span><span style="color:#75715e">no_mangle</span><span style="color:#75715e">]</span>
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">_start</span>() -&gt; <span style="color:#f92672">!</span> {
+    <span style="color:#66d9ef">loop</span> {}
+}
+
+<span style="color:#75715e">#[</span><span style="color:#75715e">panic_handler</span><span style="color:#75715e">]</span>
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">panic</span>(_info: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">core</span>::panic::PanicInfo) -&gt; <span style="color:#f92672">!</span> {
+    <span style="color:#66d9ef">loop</span> {}
+}
+</code></pre></div><p>Instead of just writing only <code>fn _start()</code>. We have some keywords and attributes around the function name.</p>
+<p><code>#[no_mangle]</code> is to avoid mangling. When <code>bootloader</code> calls <code>_start</code>, it just searchs a symbol <code>_start</code> to find the entry point. However, without <code>#[no_mangle]</code>, the Rust compiler applies some special encoding to the symbol, which prevents <code>bootloader</code> from finding it. <code>extern &quot;C&quot;</code> lets the function follows the C calling convention, which <code>bootloader</code> follows.</p>
+<p>Compile it again.</p>
+<pre><code># Compile your `no_std` program again.
+$ cargo xbuild --release --target helloworld.json
+
+# Then, compile the bootloader again.
+$ cd bootloader
+$ KERNEL=../target/helloworld/release/helloworld KERNEL_MANIFEST=../Cargo.toml cargo xbuild --release --features binary
+</code></pre><p>Then, you will find the output binary <code>bootloader/target/x86_64-bootloader/release/bootloader</code> (the path from the root of the project).</p>
+<h2 id="run-it">Run it</h2>
+<p>The binary <code>bootloader</code> is an ELF file, which actually is not a format that is bootable (loadable) from a hard disk and an USB flash drive. So let's modify a bit by the tool <code>objcopy</code>. Let's install the tool.</p>
+<pre><code>$ cargo install cargo-binutils
+</code></pre><p>Then use it.</p>
+<pre><code>$ cargo objcopy -- -I elf64-x86-64 -O binary --binary-architecture=i386:x86-64 bootloader/target/x86_64-bootloader/release/bootloader bootloader/target/x86_64-bootloader/release/bootloader.bin
+</code></pre><p>The command converts the binary <code>bootloader</code> to another binary <code>bootloader.bin</code>.</p>
+<p><code>bootloader.bin</code> is exactly the format which is bootable from a disk. If you burn the binary to a USB flash drive, then you can boot it directly on your PC without OS.</p>
+<p>Before running on your PC, we can check the behaviour using the emulator, <a href=""><code>qemu</code></a>.</p>
+<pre><code>$ qemu-system-x86_64 -drive format=raw,file=bootloader/target/x86_64-bootloader/release/bootloader.bin
+</code></pre><p>The command is for the situation where you start a PC with a hard disk whose content is <code>bootloader.bin</code>.</p>
+<p>You'll see a black screen. That's actually successful because we didn't do anything in <code>_start()</code>.</p>
+<p><img src="../../assets/baremetal-howto/qemu-black.png" alt="black"></p>
+<h2 id="print-hello-world">Print hello world</h2>
+<p>Let's print something. In <code>_start()</code>, let's write as follows. This code is instructing a video card to show a single character <code>A</code> in the screen.
+The video card watches the memory region starting from the address <code>0xb8000</code>. In this mode, the video card can show 80 x 25 characters on the screen.
+One character uses two bytes in the memory: the first byte is for an ASCII character to print and the second byte is for its color.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[</span><span style="color:#75715e">no_mangle</span><span style="color:#75715e">]</span>
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">_start</span>() -&gt; <span style="color:#f92672">!</span> {
+    <span style="color:#66d9ef">let</span> vga <span style="color:#f92672">=</span> <span style="color:#ae81ff">0xb8000</span> <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">u8</span>;
+
+    <span style="color:#66d9ef">for</span> (i, b) <span style="color:#66d9ef">in</span> <span style="color:#e6db74">b&#34;</span><span style="color:#e6db74">Hello world</span><span style="color:#e6db74">&#34;</span>.iter().enumerate() {
+        <span style="color:#66d9ef">unsafe</span> {
+            <span style="color:#f92672">*</span>vga.offset(i <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">isize</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>b;
+            <span style="color:#f92672">*</span>vga.offset(i <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">isize</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0f</span>;
+        }
+    }
+
+    <span style="color:#66d9ef">loop</span> {}
+}
+</code></pre></div><p><img src="../../assets/baremetal-howto/qemu-helloworld.png" alt="helloworld"></p>
+<p>Here I put the source code: <a href="https://github.com/YushiOMOTE/baremetal-helloworld">https://github.com/YushiOMOTE/baremetal-helloworld</a></p>
+<h2 id="summary">Summary</h2>
+<p>This is about how to write a <code>no_std</code> program which runs on bare-metal. Rust ecosystem nicely helps us travarse some complicated parts (hardware initialization for the very early stage), which often discourages us from starting bare-metal programming. From here, you can dig more to enjoy bare-metal programming in Rust.</p>
+</article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="utterances"></div>
+<script src="https://utteranc.es/client.js"
+        repo="yushiomote.org"
+        issue-term="title"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+  <div class="footer container-lg width-full p-responsive" role="contentinfo">
+    <div
+        class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+        <ul
+            class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+            <li class="mr-3 mr-lg-0">© 2019. Theme by <a href="https://github.com/MeiK2333/github-style"><span>github-style</span></a></li>
+        </ul>
+
+        <a aria-label="Homepage" title="Yushi Omote" class="footer-octicon d-none d-lg-block mx-lg-4"
+            href="http://yushiomote.org/">
+            <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                </path>
+            </svg>
+        </a>
+        <ul
+            class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+        </ul>
+    </div>
+    <div class="d-flex flex-justify-center pb-6">
+        <span class="f6 text-gray-light"></span>
+    </div>
+</div>
+
+<script crossorigin="anonymous"
+    type="application/javascript" src="http://yushiomote.org/js/frameworks.js"></script>
+
+<script crossorigin="anonymous" async="async"
+    type="application/javascript" src="http://yushiomote.org/js/github-bootstrap.js"></script>
+<script>
+    let classs = ['pinned-item-desc', 'text-gray', 'text-small', 'd-block', 'mt-2', 'mb-3'];
+    const pinned_posts = document.getElementsByName('pinned-post');
+    for (let i = 0; i < pinned_posts.length; i++) {
+        for (let j = 0; j < classs.length; j++) {
+            const ps = pinned_posts[i].getElementsByTagName('p');
+            for (let k = 0; k < ps.length; k++) {
+                ps[k].classList.add(classs[j]);
+            }
+        }
+    }
+    classs = [ 'd-inline-block', 'text-gray', 'mb-2', 'pr-4'];
+    const posts_posts = document.getElementsByName('posts-post');
+    for (let i = 0; i < posts_posts.length; i++) {
+        for (let j = 0; j < classs.length; j++) {
+            const ps = posts_posts[i].getElementsByTagName('p');
+            for (let k = 0; k < ps.length; k++) {
+                ps[k].classList.add(classs[j]);
+            }
+        }
+    }
+</script>
+</body>
+
+</html>
