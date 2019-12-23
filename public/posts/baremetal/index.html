@@ -121,7 +121,7 @@ if (!doNotTrack) {
                     <div class="Box mt-3 position-relative">
                         <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
                             <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
-                                1345 Words
+                                1357 Words
                                 
                             </div>
                         </div>
@@ -273,9 +273,10 @@ $ KERNEL=../target/helloworld/release/helloworld KERNEL_MANIFEST=../Cargo.toml c
 <p>You'll see a black screen. That's actually successful because we didn't do anything in <code>_start()</code>.</p>
 <p><img src="../../assets/baremetal-howto/qemu-black.png" alt="black"></p>
 <h2 id="print-hello-world">Print hello world</h2>
-<p>Let's print something. In <code>_start()</code>, let's write as follows. This code is instructing a video card to show a single character <code>A</code> in the screen.
+<p>Let's print something. In <code>_start()</code>, let's write as follows. This code is instructing a video card to print a message <code>Hello world</code> on the screen.
 The video card watches the memory region starting from the address <code>0xb8000</code>. In this mode, the video card can show 80 x 25 characters on the screen.
-One character uses two bytes in the memory: the first byte is for an ASCII character to print and the second byte is for its color.</p>
+One character uses two bytes in the memory: the first byte is for an ASCII character to print and the second byte is for its color. The program below
+writes characters and colors to the memory region accordingly.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[</span><span style="color:#75715e">no_mangle</span><span style="color:#75715e">]</span>
 <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">_start</span>() -&gt; <span style="color:#f92672">!</span> {
     <span style="color:#66d9ef">let</span> vga <span style="color:#f92672">=</span> <span style="color:#ae81ff">0xb8000</span> <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">u8</span>;

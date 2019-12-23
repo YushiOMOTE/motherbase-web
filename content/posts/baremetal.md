@@ -223,9 +223,10 @@ You'll see a black screen. That's actually successful because we didn't do anyth
 
 ## Print hello world
 
-Let's print something. In `_start()`, let's write as follows. This code is instructing a video card to show a single character `A` in the screen.
+Let's print something. In `_start()`, let's write as follows. This code is instructing a video card to print a message `Hello world` on the screen.
 The video card watches the memory region starting from the address `0xb8000`. In this mode, the video card can show 80 x 25 characters on the screen.
-One character uses two bytes in the memory: the first byte is for an ASCII character to print and the second byte is for its color.
+One character uses two bytes in the memory: the first byte is for an ASCII character to print and the second byte is for its color. The program below
+writes characters and colors to the memory region accordingly.
 
 ```rust
 #[no_mangle]
