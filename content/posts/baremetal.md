@@ -66,7 +66,7 @@ Without `no_std`, the Rust compiler automatically inserts `panic handler`, which
 
 You can see that `cargo build` no longer can compile the program above. This is because `cargo build` by default tries to compile the program for your local environment (on your OS). However, the `no_std` program is too minimal. It eliminates all the shim for the program to run on your OS.
 
-What we need to do next is cross-compiling. Let's compile it for bare-metal environment instead of your local environment. Luciky there's a nice cross-compiler as a cargo subcommand, [`cargo xbuild`](). First, let's install it.
+What we need to do next is cross-compiling. Let's compile it for bare-metal environment instead of your local environment. Luciky there's a nice cross-compiler as a cargo subcommand, [`cargo xbuild`](https://github.com/rust-osdev/cargo-xbuild). First, let's install it.
 
 ```sh
 $ cargo install cargo-xbuild
@@ -103,7 +103,7 @@ Now the program compiles. You will get the binary under the directory `./target/
 ## Bootloader
 
 Ok, let's run the program on bare-metal. However, we no longer rely on an OS, which means we need to initialize the hardware resources by ourselves. This is a pretty hard job without some knowledge around the early boot stage.
-Fortunately, in Rust ecosystem, there's a crate which does the job for you, [`bootloader`]().
+Fortunately, in Rust ecosystem, there's a crate which does the job for you, [`bootloader`](https://github.com/rust-osdev/bootloader).
 
 Clone it in the top directory of the project.
 
@@ -209,7 +209,7 @@ The command converts the binary `bootloader` to another binary `bootloader.bin`.
 
 `bootloader.bin` is exactly the format which is bootable from a disk. If you burn the binary to a USB flash drive, then you can boot it directly on your PC without OS.
 
-Before running on your PC, we can check the behaviour using the emulator, [`qemu`]().
+Before running on your PC, we can check the behaviour using the emulator, [`qemu`](https://www.qemu.org/).
 
 ```
 $ qemu-system-x86_64 -drive format=raw,file=bootloader/target/x86_64-bootloader/release/bootloader.bin

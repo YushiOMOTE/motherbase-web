@@ -179,7 +179,7 @@ $ ldd target/release/helloworld
 <p>Without <code>no_std</code>, the Rust compiler automatically inserts <code>panic handler</code>, which heavily depends on OS-specific features. Therefore, with <code>no_std</code>, the compiler no longer can insert <code>panic handler</code>. We instead need to implement it by ourselves. In this example, we just do nothing.</p>
 <h2 id="crosscompiling">Cross-compiling</h2>
 <p>You can see that <code>cargo build</code> no longer can compile the program above. This is because <code>cargo build</code> by default tries to compile the program for your local environment (on your OS). However, the <code>no_std</code> program is too minimal. It eliminates all the shim for the program to run on your OS.</p>
-<p>What we need to do next is cross-compiling. Let's compile it for bare-metal environment instead of your local environment. Luciky there's a nice cross-compiler as a cargo subcommand, <a href=""><code>cargo xbuild</code></a>. First, let's install it.</p>
+<p>What we need to do next is cross-compiling. Let's compile it for bare-metal environment instead of your local environment. Luciky there's a nice cross-compiler as a cargo subcommand, <a href="https://github.com/rust-osdev/cargo-xbuild"><code>cargo xbuild</code></a>. First, let's install it.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cargo install cargo-xbuild
 </code></pre></div><p>Then, let's configure it so that the cross-compiler targets to bare-metal. Save this json as the file <code>helloworld.json</code> in the top directory of the project.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
@@ -202,7 +202,7 @@ $ ldd target/release/helloworld
 </code></pre></div><p>Now the program compiles. You will get the binary under the directory <code>./target/helloworld/release/helloworld</code>.</p>
 <h2 id="bootloader">Bootloader</h2>
 <p>Ok, let's run the program on bare-metal. However, we no longer rely on an OS, which means we need to initialize the hardware resources by ourselves. This is a pretty hard job without some knowledge around the early boot stage.
-Fortunately, in Rust ecosystem, there's a crate which does the job for you, <a href=""><code>bootloader</code></a>.</p>
+Fortunately, in Rust ecosystem, there's a crate which does the job for you, <a href="https://github.com/rust-osdev/bootloader"><code>bootloader</code></a>.</p>
 <p>Clone it in the top directory of the project.</p>
 <pre><code>$ git clone https://github.com/rust-osdev/bootloader.git
 </code></pre><p>Currently, your project should be like this.</p>
@@ -267,7 +267,7 @@ $ KERNEL=../target/helloworld/release/helloworld KERNEL_MANIFEST=../Cargo.toml c
 <pre><code>$ cargo objcopy -- -I elf64-x86-64 -O binary --binary-architecture=i386:x86-64 bootloader/target/x86_64-bootloader/release/bootloader bootloader/target/x86_64-bootloader/release/bootloader.bin
 </code></pre><p>The command converts the binary <code>bootloader</code> to another binary <code>bootloader.bin</code>.</p>
 <p><code>bootloader.bin</code> is exactly the format which is bootable from a disk. If you burn the binary to a USB flash drive, then you can boot it directly on your PC without OS.</p>
-<p>Before running on your PC, we can check the behaviour using the emulator, <a href=""><code>qemu</code></a>.</p>
+<p>Before running on your PC, we can check the behaviour using the emulator, <a href="https://www.qemu.org/"><code>qemu</code></a>.</p>
 <pre><code>$ qemu-system-x86_64 -drive format=raw,file=bootloader/target/x86_64-bootloader/release/bootloader.bin
 </code></pre><p>The command is for the situation where you start a PC with a hard disk whose content is <code>bootloader.bin</code>.</p>
 <p>You'll see a black screen. That's actually successful because we didn't do anything in <code>_start()</code>.</p>
